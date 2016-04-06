@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedAdapter;
-import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedEndlessScrollToMe;
+import com.altrovis.newprewit.Bussines.Finished.FinishedAdapter;
+import com.altrovis.newprewit.Bussines.Finished.FinishedEndlessScrollToMe;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 
 public class FragmentToMeFinished extends Fragment {
 
-    UnfinishedAdapter adapter;
+    FinishedAdapter adapter;
     ListView listViewFinishedToMe;
 
     @Override
@@ -35,16 +35,16 @@ public class FragmentToMeFinished extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfFinishedToMe);
+                adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedToMe);
                 listViewFinishedToMe.setAdapter(adapter);
-                listViewFinishedToMe.setOnScrollListener(new UnfinishedEndlessScrollToMe((ActivityMain) getActivity(), adapter));
+                listViewFinishedToMe.setOnScrollListener(new FinishedEndlessScrollToMe((ActivityMain) getActivity(), adapter));
                 refreshLayout.setRefreshing(false);
             }
         });
 
-        adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfFinishedToMe);
+        adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedToMe);
         listViewFinishedToMe.setAdapter(adapter);
-        listViewFinishedToMe.setOnScrollListener(new UnfinishedEndlessScrollToMe((ActivityMain) getActivity(), adapter));
+        listViewFinishedToMe.setOnScrollListener(new FinishedEndlessScrollToMe((ActivityMain) getActivity(), adapter));
 
         return view;
     }

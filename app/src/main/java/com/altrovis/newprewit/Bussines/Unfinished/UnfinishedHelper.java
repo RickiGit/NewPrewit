@@ -1,6 +1,7 @@
 package com.altrovis.newprewit.Bussines.Unfinished;
 
 import com.altrovis.newprewit.Bussines.GlobalFunction;
+import com.altrovis.newprewit.Entities.User;
 import com.altrovis.newprewit.Entities.WorkItem;
 
 import org.json.JSONArray;
@@ -21,6 +22,8 @@ public class UnfinishedHelper {
     private static String TAG_ASSIGNED_TO = "AssignedTo";
     private static String TAG_PROJECT_NAME = "ProjectName";
     private static String TAG_ESTIMATION_DATE = "EstimationDate";
+    private static String TAG_NICKNAME = "NickName";
+    private static String TAG_URL_PROFILE = "ProfilPictureUrl";
 
     public static ArrayList<WorkItem> getListOfWorkItem(String url) throws Exception {
 
@@ -53,6 +56,12 @@ public class UnfinishedHelper {
                     long dateTimeStamp1 = Long.parseLong(dateString1);
                     Timestamp timestamp1 = new Timestamp(dateTimeStamp1);
                     workItem.setCreated(new Date(timestamp1.getTime()));
+
+                    JSONObject user = detailWorkItem.getJSONObject("EmployeeProxy");
+                    User profile = new User();
+                    profile.setNickname(user.getString(TAG_NICKNAME));
+                    profile.setUrlProfilPicture(user.getString(TAG_URL_PROFILE));
+                    workItem.setUser(profile);
 
                     listOfWorkItem.add(workItem);
                 }

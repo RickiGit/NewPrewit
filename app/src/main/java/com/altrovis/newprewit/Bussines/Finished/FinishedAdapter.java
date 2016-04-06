@@ -9,8 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.altrovis.newprewit.Bussines.CustomImageViewCircle;
 import com.altrovis.newprewit.Entities.WorkItem;
 import com.altrovis.newprewit.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,9 +55,11 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         TextView textViewAssigned = (TextView)view.findViewById(R.id.TextViewAssigned);
         TextView textViewProject = (TextView)view.findViewById(R.id.TextViewProject);
 
+
+
         WorkItem workItem = listOfFinished.get(position);
 
-        textViewUser.setText(workItem.getAssignedTo());
+        textViewUser.setText(workItem.getUser().getNickname());
 
         String description = workItem.getDescription();
         if(description.length() > 55){
@@ -67,6 +71,16 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         textViewProject.setText(workItem.getProjectName());
         textViewEstimated.setText("Estimated : " + dateFormat.format(workItem.getEstimatedTime()));
         textViewCompleted.setText("Completed : " + dateFormat.format(workItem.getCompletedTime()));
+
+        String urlProfile = workItem.getUser().getUrlProfilPicture();
+        Picasso.with(context)
+                .load(urlProfile)
+                .resize(40, 40)
+                .placeholder(R.drawable.caps)
+                .error(R.drawable.caps)
+                .centerCrop()
+                .transform(new CustomImageViewCircle())
+                .into(imageViewUser);
 
         return view;
     }

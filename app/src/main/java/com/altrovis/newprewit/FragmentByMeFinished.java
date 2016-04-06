@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedAdapter;
-import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedEndlessScrollByMe;
+import com.altrovis.newprewit.Bussines.Finished.FinishedAdapter;
+import com.altrovis.newprewit.Bussines.Finished.FinishedEndlessScrollByMe;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 
 public class FragmentByMeFinished extends Fragment {
 
-    UnfinishedAdapter adapter;
+    FinishedAdapter adapter;
     ListView listViewFinishedByMe;
 
     @Override
@@ -34,16 +34,16 @@ public class FragmentByMeFinished extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
+                adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedByMe);
                 listViewFinishedByMe.setAdapter(adapter);
-                listViewFinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
+                listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
                 refreshLayout.setRefreshing(false);
             }
         });
 
-        adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
+        adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedByMe);
         listViewFinishedByMe.setAdapter(adapter);
-        listViewFinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
+        listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
 
         return view;
     }
