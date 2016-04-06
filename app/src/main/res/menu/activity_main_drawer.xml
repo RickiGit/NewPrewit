@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Unfinished Work">
+        <menu>
+            <item
+                android:id="@+id/nav_to_me_unfinished"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="To Me" />
+            <item
+                android:id="@+id/nav_by_me_unfinished"
+                android:icon="@drawable/ic_menu_send"
+                android:title="By Me" />
+            <item
+                android:id="@+id/nav_all_unfinished"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="All" />
+        </menu>
+    </item>
+
+    <item android:title="Finished Work">
+        <menu>
+            <item
+                android:id="@+id/nav_to_me_finished"
+                android:icon="@drawable/ic_menu_share"
+                android:title="To Me" />
+            <item
+                android:id="@+id/nav_by_me_finished"
+                android:icon="@drawable/ic_menu_send"
+                android:title="By Me" />
+            <item
+                android:id="@+id/nav_all_finished"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="All" />
+        </menu>
+    </item>
+
+    <item android:title="Profile">
+        <menu>
+            <item
+                android:id="@+id/nav_sign_out"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="Sign Out" />
+        </menu>
+    </item>
+
+</menu>
