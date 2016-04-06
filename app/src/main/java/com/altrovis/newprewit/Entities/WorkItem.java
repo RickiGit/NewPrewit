@@ -14,13 +14,13 @@ public class WorkItem {
     private String ProjectName;
     private Date EstimatedTime;
     private Date CompletedTime;
-    private Date GapDate;
+    private int GapDate;
 
     public WorkItem(){
 
     }
 
-    public WorkItem(int ID, String description, Date created, String assignedBy, String assignedTo, String projectName, Date estimatedTime, Date completedTime, Date gapDate) {
+    public WorkItem(int ID, String description, Date created, String assignedBy, String assignedTo, String projectName, Date estimatedTime, Date completedTime, int gapDate) {
         this.ID = ID;
         Description = description;
         Created = created;
@@ -96,11 +96,11 @@ public class WorkItem {
         CompletedTime = completedTime;
     }
 
-    public Date getGapDate() {
+    public int getGapDate() {
         return GapDate;
     }
 
-    public void setGapDate(Date gapDate) {
+    public void setGapDate(int gapDate) {
         GapDate = gapDate;
     }
 }

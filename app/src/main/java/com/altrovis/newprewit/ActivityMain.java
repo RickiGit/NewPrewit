@@ -1,5 +1,6 @@
 package com.altrovis.newprewit;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.altrovis.newprewit.Bussines.CustomImageViewCircle;
+import com.squareup.picasso.Picasso;
 
 import com.altrovis.newprewit.Bussines.Logout.LogoutAsyncTask;
 
@@ -55,6 +61,24 @@ public class ActivityMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header = navigationView.getHeaderView(0);
+
+        ImageView imageViewDrawer = (ImageView)header.findViewById(R.id.ImageViewUserDrawer);
+        TextView textViewNickName = (TextView)header.findViewById(R.id.TextViewNickName);
+
+        SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
+        String nickname = preferences.getString("nickName", "");
+        String urlProfile = preferences.getString("urlProfile","");
+
+        Picasso.with(this)
+                .load(urlProfile)
+                .resize(120, 120)
+                .centerCrop()
+                .transform(new CustomImageViewCircle())
+                .into(imageViewDrawer);
+
+        textViewNickName.setText(nickname);
     }
 
     @Override

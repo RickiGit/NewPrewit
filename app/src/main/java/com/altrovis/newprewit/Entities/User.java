@@ -7,6 +7,8 @@ public class User {
     private String Nickname;
     private String UrlProfilPicture;
 
+    public User(){}
+
     public User(String nickname, String urlProfilPicture) {
         Nickname = nickname;
         UrlProfilPicture = urlProfilPicture;

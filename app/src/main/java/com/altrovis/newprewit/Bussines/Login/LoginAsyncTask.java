@@ -76,10 +76,18 @@ public class LoginAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                 if(isSuccessful){
 
                     String accessToken = result.getString("AccessToken");
+
+                    JSONObject user = result.getJSONObject("EmployeeProxy");
+                    String nickname = user.getString("NickName");
+                    String urlProfile = user.getString("ProfilPictureUrl");
+
                     SharedPreferences.Editor editor = context.getSharedPreferences(
                             "login", Context.MODE_PRIVATE).edit();
                     editor.putString("username", username);
                     editor.putString("accesstoken", accessToken);
+                    editor.putString("nickName", nickname);
+                    editor.putString("urlProfile", urlProfile);
+
                     editor.commit();
 
                     Intent intent = new Intent(context, ActivityMain.class);

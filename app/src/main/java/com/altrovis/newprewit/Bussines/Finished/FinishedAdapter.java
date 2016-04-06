@@ -65,6 +65,8 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
 
         textViewAssigned.setText(workItem.getAssignedBy());
         textViewProject.setText(workItem.getProjectName());
+        textViewEstimated.setText("Estimated : " + dateFormat.format(workItem.getEstimatedTime()));
+        textViewCompleted.setText("Completed : " + dateFormat.format(workItem.getCompletedTime()));
 
         return view;
     }

@@ -1,6 +1,7 @@
 package com.altrovis.newprewit.Bussines.Finished;
 
 import com.altrovis.newprewit.Bussines.GlobalFunction;
+import com.altrovis.newprewit.Entities.User;
 import com.altrovis.newprewit.Entities.WorkItem;
 
 import org.json.JSONArray;
@@ -20,12 +21,17 @@ public class FinishedHelper {
     private static String TAG_ASSIGNED_BY = "AssignedBy";
     private static String TAG_ASSIGNED_TO = "AssignedTo";
     private static String TAG_PROJECT_NAME = "ProjectName";
-    private static String TAG_COMPLETED = "";
+    private static String TAG_ESTIMATION_DATE = "EstimationDate";
+    private static String TAG_COMPLATE_DATE = "EndDate";
+    private static String TAG_GAP_DAYS = "GapDays";
+    private static String TAG_NICKNAME = "NickName";
+    private static String TAG_URL_PROFILE = "ProfilPictureUrl";
 
     public static ArrayList<WorkItem> getListOfWorkItem(String url) throws Exception {
 
         JSONArray arrayOfWorkItem = GlobalFunction.GetJSONArray(url);
         ArrayList<WorkItem> listOfWorkItem = new ArrayList<WorkItem>();
+        ArrayList<User> listOfUser = new ArrayList<User>();
 
         if (arrayOfWorkItem != null) {
             if (arrayOfWorkItem.length() > 0) {
@@ -46,7 +52,30 @@ public class FinishedHelper {
                     Timestamp timestamp = new Timestamp(dateTimeStamp);
                     workItem.setCreated(new Date(timestamp.getTime()));
 
+                    String cek1 = detailWorkItem.getString(TAG_ESTIMATION_DATE);
+                    if(cek1 != null && !cek1.equals("null")){
+                        String dateString1 = detailWorkItem.getString(TAG_ESTIMATION_DATE).replaceAll("\\D", "");
+                        long dateTimeStamp1 = Long.parseLong(dateString1);
+                        Timestamp timestamp1 = new Timestamp(dateTimeStamp1);
+                        workItem.setEstimatedTime(new Date(timestamp1.getTime()));
+                    }
+
+                    String cek2 = detailWorkItem.getString(TAG_COMPLATE_DATE);
+                    if(cek2 != null && !cek2.equals("null")){
+                        String dateString2 = detailWorkItem.getString(TAG_COMPLATE_DATE).replaceAll("\\D", "");
+                        long dateTimeStamp2 = Long.parseLong(dateString2);
+                        Timestamp timestamp2 = new Timestamp(dateTimeStamp2);
+                        workItem.setCompletedTime(new Date(timestamp2.getTime()));
+                    }
+
+                    workItem.setGapDate(detailWorkItem.getInt(TAG_GAP_DAYS));
+
+//                    User user = new User();
+//                    user.setNickname(detailWorkItem.getString(TAG_NICKNAME));
+//                    user.setUrlProfilPicture(detailWorkItem.getString(TAG_URL_PROFILE));
+
                     listOfWorkItem.add(workItem);
+                    //listOfUser.add(user);
                 }
             }
         }

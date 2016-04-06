@@ -28,7 +28,7 @@ public class FragmentByMeFinished extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_by_me_finished, container, false);
 
-        listViewFinishedByMe = (ListView) view.findViewById(R.id.ListViewToMeFinished);
+        listViewFinishedByMe = (ListView) view.findViewById(R.id.ListViewByMeFinished);
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

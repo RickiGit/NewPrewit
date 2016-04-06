@@ -7,6 +7,7 @@
     tools:context="com.altrovis.newprewit.FragmentAllUnfinished">
 
     <!-- TODO: Update blank fragment layout -->
+
     <ListView
         android:id="@+id/ListViewToMeFinished"
         android:layout_width="match_parent"

@@ -20,6 +20,7 @@ public class UnfinishedHelper {
     private static String TAG_ASSIGNED_BY = "AssignedBy";
     private static String TAG_ASSIGNED_TO = "AssignedTo";
     private static String TAG_PROJECT_NAME = "ProjectName";
+    private static String TAG_ESTIMATION_DATE = "EstimationDate";
 
     public static ArrayList<WorkItem> getListOfWorkItem(String url) throws Exception {
 
@@ -40,10 +41,18 @@ public class UnfinishedHelper {
                     workItem.setAssignedTo(detailWorkItem.getString(TAG_ASSIGNED_TO));
                     workItem.setProjectName(detailWorkItem.getString(TAG_PROJECT_NAME));
 
-                    String dateString = detailWorkItem.getString(TAG_CREATED).replaceAll("\\D", "");
-                    long dateTimeStamp = Long.parseLong(dateString);
-                    Timestamp timestamp = new Timestamp(dateTimeStamp);
-                    workItem.setCreated(new Date(timestamp.getTime()));
+                    String cek = detailWorkItem.getString(TAG_ESTIMATION_DATE);
+                    if(cek != null && !cek.equals("null")){
+                        String dateString = detailWorkItem.getString(TAG_ESTIMATION_DATE).replaceAll("\\D", "");
+                        long dateTimeStamp = Long.parseLong(dateString);
+                        Timestamp timestamp = new Timestamp(dateTimeStamp);
+                        workItem.setEstimatedTime(new Date(timestamp.getTime()));
+                    }
+
+                    String dateString1 = detailWorkItem.getString(TAG_CREATED).replaceAll("\\D", "");
+                    long dateTimeStamp1 = Long.parseLong(dateString1);
+                    Timestamp timestamp1 = new Timestamp(dateTimeStamp1);
+                    workItem.setCreated(new Date(timestamp1.getTime()));
 
                     listOfWorkItem.add(workItem);
                 }
