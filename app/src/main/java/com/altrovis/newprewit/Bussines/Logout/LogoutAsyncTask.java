@@ -79,6 +79,8 @@ public class LogoutAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                     SharedPreferences logoutClear = context.getSharedPreferences("login", context.MODE_PRIVATE);
                     logoutClear.edit().remove("username").commit();
                     logoutClear.edit().remove("accesstoken").commit();
+                    logoutClear.edit().remove("nickName").commit();
+                    logoutClear.edit().remove("urlProfile").commit();
 
                     Intent intent = new Intent(context, ActivityLogin.class);
                     context.startActivity(intent);
