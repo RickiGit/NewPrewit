@@ -25,7 +25,9 @@
         android:layout_gravity="center"
         android:text="Android Studio"
         android:textSize="18dp"
+        android:textColor="#FFFFFF"
         android:layout_marginBottom="10dp"
+        android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

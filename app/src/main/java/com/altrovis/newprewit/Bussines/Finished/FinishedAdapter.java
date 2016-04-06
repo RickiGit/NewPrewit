@@ -62,8 +62,8 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         textViewUser.setText(workItem.getUser().getNickname());
 
         String description = workItem.getDescription();
-        if(description.length() > 55){
-            description = description.substring(0, 35) + "...";
+        if(description.length() > 30){
+            description = description.substring(0, 30) + "...";
         }
         textViewWork.setText(description);
 
@@ -75,7 +75,7 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         String urlProfile = workItem.getUser().getUrlProfilPicture();
         Picasso.with(context)
                 .load(urlProfile)
-                .resize(40, 40)
+                .resize(55, 55)
                 .placeholder(R.drawable.caps)
                 .error(R.drawable.caps)
                 .centerCrop()
