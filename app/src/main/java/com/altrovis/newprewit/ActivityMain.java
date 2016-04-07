@@ -29,7 +29,6 @@ import com.altrovis.newprewit.Bussines.AddNewWorkItem.GetAllProjectMembersAsyncT
 import com.altrovis.newprewit.Bussines.AddNewWorkItem.GetAllProjectsAsyncTask;
 import com.altrovis.newprewit.Bussines.CustomImageViewCircle;
 import com.altrovis.newprewit.Bussines.Logout.LogoutAsyncTask;
-import com.altrovis.newprewit.Bussines.Logout.LogoutAsyncTask;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.Project;
 import com.altrovis.newprewit.Entities.ProjectMember;
