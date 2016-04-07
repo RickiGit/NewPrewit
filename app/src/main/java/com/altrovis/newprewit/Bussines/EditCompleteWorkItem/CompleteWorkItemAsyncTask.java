@@ -92,7 +92,6 @@ public class CompleteWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject>
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG);
             }
         }
-        dialog.dismiss();
 
     }
 }

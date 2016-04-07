@@ -5,14 +5,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.CompleteWorkItemAsyncTask;
+import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.EditWorkItemAsyncTask;
 import com.altrovis.newprewit.Entities.WorkItem;
 import com.altrovis.newprewit.R;
 
@@ -103,7 +109,10 @@ public class GlobalFunction {
         return info != null && info.isConnectedOrConnecting();
     }
 
-    public static void showDialog(View view, WorkItem workItem) {
+    static String deskripsi;
+    static String tanggalEstimasi;
+
+    public static void showDialog(View view, final WorkItem workItem) {
 
         MaterialDialog dialog;
         SharedPreferences login = view.getContext().getSharedPreferences
@@ -117,6 +126,18 @@ public class GlobalFunction {
                     .positiveText("Done")
                     .negativeText("Save")
                     .neutralText("Cancel")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            new CompleteWorkItemAsyncTask(dialog.getContext(), workItem.getID()).execute();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            new EditWorkItemAsyncTask(dialog.getContext(), deskripsi, tanggalEstimasi, workItem.getID()).execute();
+                        }
+                    })
                     .show();
         } else if (workItem.getAssignedBy().equalsIgnoreCase(username)
                 || (workItem.getAssignedTo().equalsIgnoreCase(username))) {
@@ -124,6 +145,12 @@ public class GlobalFunction {
                     .customView(R.layout.dialog_set_workitem, true)
                     .positiveText("Save")
                     .neutralText("Cancel")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            new EditWorkItemAsyncTask(dialog.getContext(), deskripsi, tanggalEstimasi, workItem.getID()).execute();
+                        }
+                    })
                     .show();
         } else {
             dialog = new MaterialDialog.Builder(view.getContext()).title("Detail")
@@ -149,8 +176,8 @@ public class GlobalFunction {
             editTextEstimationDate.setEnabled(false);
         } else {
             if(workItem.getEstimatedTime() != null){
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
-                String tanggal = sdf.format(workItem.getCompletedTime());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                String tanggal = sdf.format(workItem.getEstimatedTime());
                 editTextEstimationDate.setText(tanggal);
             }
 
@@ -170,19 +197,42 @@ public class GlobalFunction {
                                 Calendar c = Calendar.getInstance();
                                 c.set(selectedyear, selectedmonth, selectedday);
 
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                                 String tanggal = sdf.format(c.getTime());
                                 editTextEstimationDate.setText(tanggal);
                             }
                         }, year, month, day);
-                        datePicker.setTitle("Select date");
                         datePicker.show();
-
                     }
                     return false;
                 }
             });
         }
+
+        deskripsi = editTextDescription.getText().toString();
+        tanggalEstimasi =  editTextEstimationDate.getText().toString();
+
+        editTextDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                deskripsi = s.toString();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        editTextEstimationDate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tanggalEstimasi = s.toString();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
     }
 }
