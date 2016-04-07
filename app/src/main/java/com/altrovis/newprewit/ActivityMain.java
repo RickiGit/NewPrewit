@@ -17,9 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.altrovis.newprewit.Bussines.CustomImageViewCircle;
-import com.squareup.picasso.Picasso;
-
 import com.altrovis.newprewit.Bussines.Logout.LogoutAsyncTask;
+import com.squareup.picasso.Picasso;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,6 +73,8 @@ public class ActivityMain extends AppCompatActivity
         Picasso.with(this)
                 .load(urlProfile)
                 .resize(120, 120)
+                .placeholder(R.drawable.caps)
+                .error(R.drawable.caps)
                 .centerCrop()
                 .transform(new CustomImageViewCircle())
                 .into(imageViewDrawer);
