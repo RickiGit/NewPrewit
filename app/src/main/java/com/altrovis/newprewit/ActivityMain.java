@@ -2,27 +2,61 @@ package com.altrovis.newprewit;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.altrovis.newprewit.Bussines.AddNewWorkItem.AddNewWorkItemAsyncTask;
+import com.altrovis.newprewit.Bussines.AddNewWorkItem.GetAllProjectMembersAsyncTask;
+import com.altrovis.newprewit.Bussines.AddNewWorkItem.GetAllProjectsAsyncTask;
 import com.altrovis.newprewit.Bussines.CustomImageViewCircle;
 import com.altrovis.newprewit.Bussines.Logout.LogoutAsyncTask;
+import com.altrovis.newprewit.Entities.GlobalVariable;
+import com.altrovis.newprewit.Entities.Project;
+import com.altrovis.newprewit.Entities.ProjectMember;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private ArrayAdapter<ProjectMember> spEmployeeAdapter;
+    private List<ProjectMember> listEmployee;
+    private ProjectMember selectedEmployee;
+
+    private ArrayAdapter<Project> spProjectAdapter;
+    private List<Project> listProject;
+    private Project selectedProject;
+
+    private Spinner spEmployee, spProject;
+    private EditText etDeskription;
+    private String description;
+
+    private SpinnerEmployeeAdapter employeeAdapter;
+    private SpinnerProjectAdapter projectAdapter;
+
+    private MaterialDialog dialog;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +71,16 @@ public class ActivityMain extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        listEmployee = new ArrayList<>();
+        spEmployeeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listEmployee);
+
+        listProject = new ArrayList<>();
+        spProjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listProject);
+
+        employeeAdapter = new SpinnerEmployeeAdapter();
+        projectAdapter = new SpinnerProjectAdapter();
+
+        this.setFloactingActionButton();
 
         FragmentToMeUnfinished fragment = new FragmentToMeUnfinished();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -69,6 +105,7 @@ public class ActivityMain extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
         String nickname = preferences.getString("nickName", "");
         String urlProfile = preferences.getString("urlProfile","");
+        username = preferences.getString("username","");
 
         Picasso.with(this)
                 .load(urlProfile)
@@ -173,5 +210,100 @@ public class ActivityMain extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class SpinnerEmployeeAdapter implements AdapterView.OnItemSelectedListener{
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            selectedEmployee = listEmployee.get(position);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
+    public class SpinnerProjectAdapter implements AdapterView.OnItemSelectedListener{
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            selectedProject = listProject.get(position);
+
+            new GetAllProjectMembersAsyncTask(view.getContext(), selectedProject.getID(), spEmployeeAdapter,
+                    dialog).execute();
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
+    private void setFloactingActionButton(){
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                dialog = new MaterialDialog.Builder(view.getContext()).title("Add New Work Item")
+                        .customView(R.layout.dialog_add_workitem, true)
+                        .positiveText("Ok")
+                        .negativeText("Cancel")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                int projectID = selectedProject.getID();
+                                int assignedByID = GetAssignedByID(username);
+                                int assignedToID = selectedEmployee.getID();
+
+                                new AddNewWorkItemAsyncTask(dialog.getContext(), description, projectID, assignedByID,
+                                        assignedToID, dialog).execute();
+
+                            }
+                        })
+                        .show();
+
+                new GetAllProjectsAsyncTask(view.getContext(), spProjectAdapter, dialog).execute();
+
+                spProject = (Spinner) dialog.getCustomView().findViewById(R.id.spinner_project);
+                spProject.setAdapter(spProjectAdapter);
+                spProject.setOnItemSelectedListener(projectAdapter);
+
+                spEmployee = (Spinner) dialog.getCustomView().findViewById(R.id.spinner_employee);
+                spEmployee.setAdapter(spEmployeeAdapter);
+                spEmployee.setOnItemSelectedListener(employeeAdapter);
+
+                etDeskription = (EditText) dialog.getCustomView().findViewById(R.id.editText_description);
+
+                etDeskription.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        description = s.toString();
+                    }
+                    @Override
+                    public void afterTextChanged(Editable s) {}
+                });
+
+            }
+        });
+
+    }
+
+    private int GetAssignedByID(String username){
+
+        for (int i = 0; i < GlobalVariable.listOfProjectMembers.size(); i++) {
+            ProjectMember member = GlobalVariable.listOfProjectMembers.get(i);
+            if(member.getUsername().equalsIgnoreCase(username)){
+                return member.getID();
+            }
+        }
+
+        return 0;
     }
 }
