@@ -71,7 +71,6 @@ public class FinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
         }
 
         adapter.addAll(listOfFinishedWorkItem);
-        adapter.notifyDataSetChanged();
 
         if(listOfFinishedWorkItem.size() > 0){
             int lastRetrivedID = listOfFinishedWorkItem.get(listOfFinishedWorkItem.size() - 1).getID();
@@ -79,5 +78,7 @@ public class FinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
         } else {
             GlobalVariable.All_FinishedByMe_Retrieved = true;
         }
+
+        adapter.notifyDataSetChanged();
     }
 }

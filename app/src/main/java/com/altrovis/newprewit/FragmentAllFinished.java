@@ -31,19 +31,20 @@ public class FragmentAllFinished extends Fragment {
         listViewFinishedAll = (ListView)view.findViewById(R.id.ListViewAllFinished);
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
+        adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinished);
+        listViewFinishedAll.setAdapter(adapter);
+        listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                GlobalVariable.LastID_Finished_All = -1;
                 adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinished);
                 listViewFinishedAll.setAdapter(adapter);
                 listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
                 refreshLayout.setRefreshing(false);
             }
         });
-
-        adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinished);
-        listViewFinishedAll.setAdapter(adapter);
-        listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
 
         return view;
     }
