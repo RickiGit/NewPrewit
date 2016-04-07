@@ -15,6 +15,7 @@ public class WorkItem {
     private Date EstimatedTime;
     private Date CompletedTime;
     private int GapDate;
+    private User user;
 
     public WorkItem(){
 
@@ -22,14 +23,14 @@ public class WorkItem {
 
     public WorkItem(int ID, String description, Date created, String assignedBy, String assignedTo, String projectName, Date estimatedTime, Date completedTime, int gapDate) {
         this.ID = ID;
-        Description = description;
-        Created = created;
-        AssignedBy = assignedBy;
-        AssignedTo = assignedTo;
-        ProjectName = projectName;
-        EstimatedTime = estimatedTime;
-        CompletedTime = completedTime;
-        GapDate = gapDate;
+        this.Description = description;
+        this.Created = created;
+        this.AssignedBy = assignedBy;
+        this.AssignedTo = assignedTo;
+        this.ProjectName = projectName;
+        this.EstimatedTime = estimatedTime;
+        this.CompletedTime = completedTime;
+        this.GapDate = gapDate;
     }
 
     public int getID() {
@@ -102,5 +103,13 @@ public class WorkItem {
 
     public void setGapDate(int gapDate) {
         GapDate = gapDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

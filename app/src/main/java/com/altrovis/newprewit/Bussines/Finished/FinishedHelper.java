@@ -31,7 +31,6 @@ public class FinishedHelper {
 
         JSONArray arrayOfWorkItem = GlobalFunction.GetJSONArray(url);
         ArrayList<WorkItem> listOfWorkItem = new ArrayList<WorkItem>();
-        ArrayList<User> listOfUser = new ArrayList<User>();
 
         if (arrayOfWorkItem != null) {
             if (arrayOfWorkItem.length() > 0) {
@@ -70,12 +69,13 @@ public class FinishedHelper {
 
                     workItem.setGapDate(detailWorkItem.getInt(TAG_GAP_DAYS));
 
-//                    User user = new User();
-//                    user.setNickname(detailWorkItem.getString(TAG_NICKNAME));
-//                    user.setUrlProfilPicture(detailWorkItem.getString(TAG_URL_PROFILE));
+                    JSONObject user = detailWorkItem.getJSONObject("EmployeeProxy");
+                    User profile = new User();
+                    profile.setNickname(user.getString(TAG_NICKNAME));
+                    profile.setUrlProfilPicture(user.getString(TAG_URL_PROFILE));
+                    workItem.setUser(profile);
 
                     listOfWorkItem.add(workItem);
-                    //listOfUser.add(user);
                 }
             }
         }

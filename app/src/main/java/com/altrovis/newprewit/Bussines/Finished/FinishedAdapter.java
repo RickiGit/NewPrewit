@@ -9,12 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.altrovis.newprewit.Bussines.CustomImageViewCircle;
 import com.altrovis.newprewit.Entities.WorkItem;
 import com.altrovis.newprewit.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -52,14 +55,16 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         TextView textViewCompleted = (TextView)view.findViewById(R.id.TextViewCompleted);
         TextView textViewAssigned = (TextView)view.findViewById(R.id.TextViewAssigned);
         TextView textViewProject = (TextView)view.findViewById(R.id.TextViewProject);
+        ImageView imageViewKeterangan = (ImageView)view.findViewById(R.id.ImageViewKeterangan);
+
 
         WorkItem workItem = listOfFinished.get(position);
 
-        textViewUser.setText(workItem.getAssignedTo());
+        textViewUser.setText(workItem.getUser().getNickname());
 
         String description = workItem.getDescription();
-        if(description.length() > 55){
-            description = description.substring(0, 35) + "...";
+        if(description.length() > 30){
+            description = description.substring(0, 30) + "...";
         }
         textViewWork.setText(description);
 
@@ -67,6 +72,21 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         textViewProject.setText(workItem.getProjectName());
         textViewEstimated.setText("Estimated : " + dateFormat.format(workItem.getEstimatedTime()));
         textViewCompleted.setText("Completed : " + dateFormat.format(workItem.getCompletedTime()));
+
+        Date keterangan = workItem.getEstimatedTime();
+        if(keterangan != null){
+            imageViewKeterangan.setImageResource(R.drawable.mark);
+        }
+
+        String urlProfile = workItem.getUser().getUrlProfilPicture();
+        Picasso.with(context)
+                .load(urlProfile)
+                .resize(55, 55)
+                .placeholder(R.drawable.caps)
+                .error(R.drawable.caps)
+                .centerCrop()
+                .transform(new CustomImageViewCircle())
+                .into(imageViewUser);
 
         return view;
     }

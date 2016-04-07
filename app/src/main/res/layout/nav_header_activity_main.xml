@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:clickable="true"
         android:layout_gravity="center"/>
 
     <TextView
@@ -25,7 +26,9 @@
         android:layout_gravity="center"
         android:text="Android Studio"
         android:textSize="18dp"
+        android:textColor="#FFFFFF"
         android:layout_marginBottom="10dp"
+        android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

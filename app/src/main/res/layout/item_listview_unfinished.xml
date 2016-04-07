@@ -9,12 +9,17 @@
         android:padding="10dp">
         <ImageView
             android:id="@+id/ImageViewUser"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_menu_camera"
             android:layout_marginRight="10dp"/>
+        <View
+            android:layout_width="0.3dp"
+            android:layout_height="fill_parent"
+            android:background="#c2c0c0"
+            android:layout_marginRight="10dp"/>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
@@ -43,10 +48,21 @@
                     android:layout_marginLeft="5dp"
                     android:textColor="#444444"
                     android:textSize="13dp"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/ImageViewKeterangan"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"/>
+                </RelativeLayout>
             </LinearLayout>
             <TextView
                 android:id="@+id/TextViewWork"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rapihin dan lengkapin data Working Periods buat semua karyawan di Altrovis Master"
                 android:textSize="15dp"
@@ -67,18 +83,13 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="5dp"
                         android:textColor="#444444"/>
-                    <!--<ImageView-->
-                        <!--android:id="@+id/ImageViewAssigned"-->
-                        <!--android:layout_width="25dp"-->
-                        <!--android:layout_height="25dp"-->
-                        <!--android:src="@drawable/ic_menu_camera"-->
-                        <!--android:layout_marginRight="5dp"/>-->
                     <TextView
                         android:id="@+id/TextViewAssigned"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Pevita"
                         android:textSize="13dp"
+                        android:textStyle="bold"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"/>
                     <TextView
@@ -98,14 +109,6 @@
                         android:textSize="13dp"
                         android:layout_gravity="center_vertical"/>
                 </LinearLayout>
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/ImageViewKeterangan"-->
-                    <!--android:layout_width="25dp"-->
-                    <!--android:layout_height="25dp"-->
-                    <!--android:src="@drawable/ic_menu_camera"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_marginRight="5dp"/>-->
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
