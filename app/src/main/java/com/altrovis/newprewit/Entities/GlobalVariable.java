@@ -44,4 +44,12 @@ public class GlobalVariable {
     public static ArrayList<WorkItem> listOfFinished = new ArrayList<WorkItem>();
     public static ArrayList<WorkItem> listOfFinishedByMe = new ArrayList<WorkItem>();
     public static ArrayList<WorkItem> listOfFinishedToMe = new ArrayList<WorkItem>();
+
+    public static String UrlGetAllProjects = "http://apps.altrovis.com/prewit/prewitservice.asmx/GetAllProjects";
+    public static String UrlGetAllProjectMembers = "http://apps.altrovis.com/prewit/prewitservice.asmx/GetAllProjectMembers";
+    public static String UrlAddNewWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/AddNewWorkItem";
+
+    public static ArrayList<Project> listOfProjects = new ArrayList<Project>();
+    public static ArrayList<ProjectMember> listOfProjectMembers = new ArrayList<ProjectMember>();
+
 }

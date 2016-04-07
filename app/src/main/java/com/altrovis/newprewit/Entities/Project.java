@@ -3,20 +3,21 @@ package com.altrovis.newprewit.Entities;
 import java.util.Date;
 
 /**
- * Created by ricki on 4/5/2016.
+ * Created by Wisnu on 15/03/2016.
  */
 public class Project {
+
     private int ID;
-    private String Nama;
-    private Date Created;
+    private String nama;
+    private Date created;
 
     public Project() {
     }
 
     public Project(int ID, String nama, Date created) {
         this.ID = ID;
-        Nama = nama;
-        Created = created;
+        this.nama = nama;
+        this.created = created;
     }
 
     public int getID() {
@@ -28,23 +29,24 @@ public class Project {
     }
 
     public String getNama() {
-        return Nama;
+        return nama;
     }
 
     public void setNama(String nama) {
-        Nama = nama;
+        this.nama = nama;
     }
 
     public Date getCreated() {
-        return Created;
+        return created;
     }
 
     public void setCreated(Date created) {
-        Created = created;
+        this.created = created;
     }
 
     @Override
     public String toString(){
-        return Nama;
+        return nama;
     }
+
 }

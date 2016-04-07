@@ -12,9 +12,12 @@ buildscript {
     }
 }
 
+apply from: 'gradle-script/dependencies.gradle'
+
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
