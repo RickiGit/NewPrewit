@@ -6,11 +6,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.altrovis.newprewit.Bussines.GlobalFunction;
 import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedAdapter;
 import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedEndlessScrollAll;
 import com.altrovis.newprewit.Entities.GlobalVariable;
+import com.altrovis.newprewit.Entities.WorkItem;
 
 public class FragmentAllUnfinished extends Fragment {
 
@@ -45,6 +48,15 @@ public class FragmentAllUnfinished extends Fragment {
         listViewUnfinishedAll.setAdapter(adapter);
         listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
 
+        listViewUnfinishedAll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                WorkItem workItem = GlobalVariable.listOfUnfinishedAll.get(position);
+                GlobalFunction.showDialog(view, workItem);
+            }
+        });
+
         return view;
     }
+
 }

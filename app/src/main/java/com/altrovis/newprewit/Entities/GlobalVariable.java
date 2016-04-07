@@ -52,4 +52,8 @@ public class GlobalVariable {
     public static ArrayList<Project> listOfProjects = new ArrayList<Project>();
     public static ArrayList<ProjectMember> listOfProjectMembers = new ArrayList<ProjectMember>();
 
+    public static String UrlEditWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/EditWorkItem";
+    public static String UrlCompleteWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/CompleteWorkItem";
+
+
 }
