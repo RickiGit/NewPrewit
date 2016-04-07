@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -54,7 +55,7 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         TextView textViewCompleted = (TextView)view.findViewById(R.id.TextViewCompleted);
         TextView textViewAssigned = (TextView)view.findViewById(R.id.TextViewAssigned);
         TextView textViewProject = (TextView)view.findViewById(R.id.TextViewProject);
-
+        ImageView imageViewKeterangan = (ImageView)view.findViewById(R.id.ImageViewKeterangan);
 
 
         WorkItem workItem = listOfFinished.get(position);
@@ -71,6 +72,11 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         textViewProject.setText(workItem.getProjectName());
         textViewEstimated.setText("Estimated : " + dateFormat.format(workItem.getEstimatedTime()));
         textViewCompleted.setText("Completed : " + dateFormat.format(workItem.getCompletedTime()));
+
+        Date keterangan = workItem.getEstimatedTime();
+        if(keterangan != null){
+            imageViewKeterangan.setImageResource(R.drawable.mark);
+        }
 
         String urlProfile = workItem.getUser().getUrlProfilPicture();
         Picasso.with(context)
