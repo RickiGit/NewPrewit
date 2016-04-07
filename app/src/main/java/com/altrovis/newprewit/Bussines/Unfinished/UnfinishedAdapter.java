@@ -71,7 +71,7 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
 
         Date keterangan = workItem.getEstimatedTime();
         if(keterangan != null){
-            imageViewKeterangan.setImageResource(R.drawable.mark);
+            imageViewKeterangan.setImageResource(R.drawable.note);
         }
 
         String urlProfile = workItem.getUser().getUrlProfilPicture();

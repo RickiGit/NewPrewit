@@ -34,19 +34,22 @@ public class FragmentAllUnfinished extends Fragment {
         listViewUnfinishedAll = (ListView) view.findViewById(R.id.ListViewAllUnfinished);
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
+        adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedAll);
+        listViewUnfinishedAll.setAdapter(adapter);
+        listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                GlobalVariable.LastID_UnFinished_All = -1;
+                adapter.clear();
                 adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedAll);
                 listViewUnfinishedAll.setAdapter(adapter);
                 listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
                 refreshLayout.setRefreshing(false);
+
             }
         });
-
-        adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedAll);
-        listViewUnfinishedAll.setAdapter(adapter);
-        listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
 
         listViewUnfinishedAll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

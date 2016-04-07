@@ -82,6 +82,11 @@ public class LogoutAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                     logoutClear.edit().remove("nickName").commit();
                     logoutClear.edit().remove("urlProfile").commit();
 
+                    GlobalVariable.listOfUnfinishedByMe.clear();
+                    GlobalVariable.listOfUnfinishedToMe.clear();
+                    GlobalVariable.listOfFinishedByMe.clear();
+                    GlobalVariable.listOfFinishedToMe.clear();
+
                     Intent intent = new Intent(context, ActivityLogin.class);
                     context.startActivity(intent);
                     context.finish();
