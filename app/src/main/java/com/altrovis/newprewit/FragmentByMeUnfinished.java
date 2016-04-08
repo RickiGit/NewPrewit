@@ -42,8 +42,9 @@ public class FragmentByMeUnfinished extends Fragment {
             @Override
             public void onRefresh() {
                 GlobalVariable.LastID_UnFinished_ByMe = -1;
+                GlobalVariable.All_UnFinishedByMe_Retrieved = false;
                 adapter.clear();
-                adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
+                //adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
                 listViewUnfinishedByMe.setAdapter(adapter);
                 listViewUnfinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
                 refreshLayout.setRefreshing(false);

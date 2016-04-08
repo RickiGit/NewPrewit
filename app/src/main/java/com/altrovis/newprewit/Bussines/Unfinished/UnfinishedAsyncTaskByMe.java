@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.altrovis.newprewit.Bussines.GlobalFunction;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.WorkItem;
 
@@ -70,15 +72,20 @@ public class UnfinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
             progressDialog.dismiss();
         }
 
-        adapter.addAll(listOfUnfinishedWorkItem);
+        if(GlobalFunction.isOnline(context)){
+            adapter.addAll(listOfUnfinishedWorkItem);
 
-        if(listOfUnfinishedWorkItem.size() > 0){
-            int lastRetrivedID = listOfUnfinishedWorkItem.get(listOfUnfinishedWorkItem.size() - 1).getID();
-            GlobalVariable.LastID_UnFinished_ByMe = lastRetrivedID;
-        } else {
-            GlobalVariable.All_UnFinishedByMe_Retrieved = true;
+            if(listOfUnfinishedWorkItem.size() > 0){
+                int lastRetrivedID = listOfUnfinishedWorkItem.get(listOfUnfinishedWorkItem.size() - 1).getID();
+                GlobalVariable.LastID_UnFinished_ByMe = lastRetrivedID;
+            } else {
+                GlobalVariable.All_UnFinishedByMe_Retrieved = true;
+            }
+
+            adapter.notifyDataSetChanged();
         }
-
-        adapter.notifyDataSetChanged();
+        else {
+            Toast.makeText(context, "Koneksi bermasalah", Toast.LENGTH_LONG).show();
+        }
     }
 }

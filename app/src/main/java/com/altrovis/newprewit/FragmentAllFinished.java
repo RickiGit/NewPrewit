@@ -39,7 +39,9 @@ public class FragmentAllFinished extends Fragment {
             @Override
             public void onRefresh() {
                 GlobalVariable.LastID_Finished_All = -1;
-                adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinished);
+                GlobalVariable.All_Finished_Retrieved = false;
+                adapter.clear();
+                //adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinished);
                 listViewFinishedAll.setAdapter(adapter);
                 listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), adapter));
                 refreshLayout.setRefreshing(false);

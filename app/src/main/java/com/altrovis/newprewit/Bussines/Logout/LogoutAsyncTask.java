@@ -86,6 +86,22 @@ public class LogoutAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                     GlobalVariable.listOfUnfinishedToMe.clear();
                     GlobalVariable.listOfFinishedByMe.clear();
                     GlobalVariable.listOfFinishedToMe.clear();
+                    GlobalVariable.listOfUnfinishedAll.clear();
+                    GlobalVariable.listOfFinished.clear();
+
+                    GlobalVariable.All_FinishedToMe_Retrieved = false;
+                    GlobalVariable.All_UnFinished_Retrieved = false;
+                    GlobalVariable.All_UnFinishedByMe_Retrieved = false;
+                    GlobalVariable.All_FinishedByMe_Retrieved = false;
+                    GlobalVariable.All_Finished_Retrieved = false;
+                    GlobalVariable.All_UnFinishedToMe_Retrieved = false;
+
+                    GlobalVariable.LastID_Finished_All = -1;
+                    GlobalVariable.LastID_UnFinished_ByMe = -1;
+                    GlobalVariable.LastID_UnFinished_ToMe = -1;
+                    GlobalVariable.LastID_Finished_ByMe = -1;
+                    GlobalVariable.LastID_Finished_ToMe = -1;
+                    GlobalVariable.LastID_UnFinished_All = -1;
 
                     Intent intent = new Intent(context, ActivityLogin.class);
                     context.startActivity(intent);
