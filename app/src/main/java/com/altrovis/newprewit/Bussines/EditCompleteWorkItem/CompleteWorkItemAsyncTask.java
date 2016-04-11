@@ -83,13 +83,13 @@ public class CompleteWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject>
             try {
                 boolean isSuccessful = result.getBoolean("IsSuccessful");
                 if(isSuccessful){
-                    Toast.makeText(context, "Data Berhasil diubah", Toast.LENGTH_LONG);
+                    Toast.makeText(context, "Data Berhasil diubah", Toast.LENGTH_LONG).show();
                 } else {
                     String errorMessage = result.getString("ErrorMessage");
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG);
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
 
