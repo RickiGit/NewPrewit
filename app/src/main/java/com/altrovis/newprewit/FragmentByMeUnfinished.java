@@ -17,8 +17,8 @@ import com.altrovis.newprewit.Entities.WorkItem;
 
 public class FragmentByMeUnfinished extends Fragment {
 
-    UnfinishedAdapter adapter;
     ListView listViewUnfinishedByMe;
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,25 +28,24 @@ public class FragmentByMeUnfinished extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_by_me_unfinished, container, false);
 
         listViewUnfinishedByMe = (ListView) view.findViewById(R.id.ListViewByMeUnfinished);
-        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
-        listViewUnfinishedByMe.setAdapter(adapter);
-        listViewUnfinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
+        GlobalVariable.unfinishedAdapterByMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
+        listViewUnfinishedByMe.setAdapter(GlobalVariable.unfinishedAdapterByMe);
+        listViewUnfinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterByMe));
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 GlobalVariable.LastID_UnFinished_ByMe = -1;
                 GlobalVariable.All_UnFinishedByMe_Retrieved = false;
-                adapter.clear();
-                //adapter = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
-                listViewUnfinishedByMe.setAdapter(adapter);
-                listViewUnfinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
+                GlobalVariable.unfinishedAdapterByMe.clear();
+                listViewUnfinishedByMe.setAdapter(GlobalVariable.unfinishedAdapterByMe);
+                listViewUnfinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterByMe));
                 refreshLayout.setRefreshing(false);
             }
         });
@@ -54,12 +53,11 @@ public class FragmentByMeUnfinished extends Fragment {
         listViewUnfinishedByMe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WorkItem workItem = GlobalVariable.listOfUnfinishedByMe.get(position);
+                WorkItem workItem = GlobalVariable.listOfWorkItemUnfinishedByMe.get(position);
                 GlobalFunction.showDialog(view, workItem);
             }
         });
 
         return view;
     }
-
 }

@@ -11,7 +11,7 @@ import com.altrovis.newprewit.Entities.GlobalVariable;
  */
 public class UnfinishedEndlessScrollAll implements AbsListView.OnScrollListener {
 
-    private int visibleThreshold = 2;
+    private int visibleThreshold = 1;
 
     private ActivityMain context;
     private UnfinishedAsyncTaskAll asyncTask;

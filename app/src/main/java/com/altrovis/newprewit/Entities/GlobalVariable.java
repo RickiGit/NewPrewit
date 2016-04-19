@@ -1,5 +1,9 @@
 package com.altrovis.newprewit.Entities;
 
+import com.altrovis.newprewit.ActivityMain;
+import com.altrovis.newprewit.Bussines.Finished.FinishedAdapter;
+import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedAdapter;
+
 import java.util.ArrayList;
 
 /**
@@ -54,6 +58,25 @@ public class GlobalVariable {
 
     public static String UrlEditWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/EditWorkItem";
     public static String UrlCompleteWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/CompleteWorkItem";
+    public static String UrlDeleteWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/DeleteWorkItem";
+    public static String UrlEditWorkItemDescription = "http://apps.altrovis.com/prewit/prewitservice.asmx/EditWorkItemDescription";
 
+    public static ActivityMain activityMain;
+
+    public static ArrayList<WorkItem> listOfWorkItemUnfinishedToMe;
+    public static ArrayList<WorkItem> listOfWorkItemUnfinishedByMe;
+    public static ArrayList<WorkItem> listOfWorkItemUnfinishedAll;
+
+    public static ArrayList<WorkItem> listOfWorkItemFinishedToMe;
+    public static ArrayList<WorkItem> listOfWorkItemFinishedByMe;
+    public static ArrayList<WorkItem> listOfWorkItemFinishedAll;
+
+    public static UnfinishedAdapter unfinishedAdapterToMe;
+    public static UnfinishedAdapter unfinishedAdapterByMe;
+    public static UnfinishedAdapter unfinishedAdapterAll;
+
+    public static FinishedAdapter finishedAdapterToMe;
+    public static FinishedAdapter finishedAdapterByMe;
+    public static FinishedAdapter finishedAdapterAll;
 
 }

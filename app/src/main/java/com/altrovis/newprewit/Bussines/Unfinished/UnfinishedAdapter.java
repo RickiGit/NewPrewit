@@ -52,7 +52,6 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
         TextView textViewUser = (TextView)view.findViewById(R.id.TextViewUser);
         TextView textViewCreated = (TextView)view.findViewById(R.id.TextViewCreated);
         TextView textViewWork = (TextView)view.findViewById(R.id.TextViewWork);
-        //ImageView imageViewAssigned = (ImageView)view.findViewById(R.id.ImageViewAssigned);
         TextView textViewAssigned = (TextView)view.findViewById(R.id.TextViewAssigned);
         TextView textViewProject = (TextView)view.findViewById(R.id.TextViewProject);
         ImageView imageViewKeterangan = (ImageView)view.findViewById(R.id.ImageViewKeterangan);
@@ -72,6 +71,8 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
         Date keterangan = workItem.getEstimatedTime();
         if(keterangan != null){
             imageViewKeterangan.setImageResource(R.drawable.note);
+        }else{
+            imageViewKeterangan.setImageResource(0);
         }
 
         String urlProfile = workItem.getUser().getUrlProfilPicture();

@@ -11,7 +11,7 @@ import com.altrovis.newprewit.Entities.GlobalVariable;
  */
 public class UnfinishedEndlessScrollToMe implements AbsListView.OnScrollListener {
 
-    private int visibleThreshold = 2;
+    private int visibleThreshold = 1;
 
     private ActivityMain context;
     private UnfinishedAsyncTaskToMe asyncTask;
@@ -27,11 +27,9 @@ public class UnfinishedEndlessScrollToMe implements AbsListView.OnScrollListener
     }
 
     @Override
-    public void onScroll(AbsListView view, int firstVisibleItem,
-                         int visibleItemCount, int totalItemCount) {
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-        if (!GlobalVariable.All_UnFinishedToMe_Retrieved &&
-                totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold) {
+        if (!GlobalVariable.All_UnFinishedToMe_Retrieved && totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold) {
             if (asyncTask == null || asyncTask.getStatus() == AsyncTask.Status.FINISHED) {
                 asyncTask = new UnfinishedAsyncTaskToMe(context, adapter);
                 asyncTask.execute();

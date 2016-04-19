@@ -18,21 +18,18 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 
 /**
- * Created by Wisnu on 10/03/2016.
+ * Created by ricki on 4/18/2016.
  */
-public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
-
+public class EditWorkItemDescriptionAsyncTask extends AsyncTask<Void, Void, JSONObject> {
     ProgressDialog progressDialog;
     Context context;
 
-    String url = GlobalVariable.UrlEditWorkItem;
+    String url = GlobalVariable.UrlEditWorkItemDescription;
     String param1 = "?workItemID=";
     String param2 = "&description=";
-    String param3 = "&estimatedCompletion=";
-    String param4 = "&username=";
-    String param5 = "&accessToken=";
+    String param3 = "&username=";
+    String param4 = "&accessToken=";
 
-    String estimatedDate = "";
     String username = "";
     String accessToken = "";
     String description = "";
@@ -40,10 +37,9 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
 
     String completeUrl = "";
 
-    public EditWorkItemAsyncTask(Context context, String description, String estimatedDate, int workItemID){
+    public EditWorkItemDescriptionAsyncTask(Context context, String description, int workItemID){
 
         this.context = context;
-        this.estimatedDate =  estimatedDate;
         this.workItemID = workItemID;
         this.description = description;
 
@@ -57,10 +53,9 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
 
         try {
             completeUrl = url + param1 + this.workItemID
-                              + param2 + URLEncoder.encode(this.description, "UTF-8")
-                              + param3 + this.estimatedDate
-                              + param4 + this.username
-                              + param5 + this.accessToken;
+                    + param2 + URLEncoder.encode(this.description, "UTF-8")
+                    + param3 + this.username
+                    + param4 + this.accessToken;
         } catch (Exception e) {
             e.printStackTrace();
         }

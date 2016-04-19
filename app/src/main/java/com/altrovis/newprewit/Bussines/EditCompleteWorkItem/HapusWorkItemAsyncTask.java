@@ -15,41 +15,31 @@ import com.altrovis.newprewit.Entities.GlobalVariable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
-
 /**
- * Created by Wisnu on 10/03/2016.
+ * Created by ricki on 4/18/2016.
  */
-public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
+public class HapusWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
 
     ProgressDialog progressDialog;
     Context context;
 
-    String url = GlobalVariable.UrlEditWorkItem;
+    String url = GlobalVariable.UrlDeleteWorkItem;
     String param1 = "?workItemID=";
-    String param2 = "&description=";
-    String param3 = "&estimatedCompletion=";
-    String param4 = "&username=";
-    String param5 = "&accessToken=";
+    String param2 = "&username=";
+    String param3 = "&accessToken=";
 
-    String estimatedDate = "";
-    String username = "";
-    String accessToken = "";
-    String description = "";
     int workItemID;
 
     String completeUrl = "";
 
-    public EditWorkItemAsyncTask(Context context, String description, String estimatedDate, int workItemID){
+    public HapusWorkItemAsyncTask(Context context, int workItemID){
 
         this.context = context;
-        this.estimatedDate =  estimatedDate;
         this.workItemID = workItemID;
-        this.description = description;
 
         SharedPreferences login = context.getSharedPreferences("login", context.MODE_PRIVATE);
-        username = login.getString("username", "");
-        accessToken = login.getString("accesstoken","");
+        String username = login.getString("username", "");
+        String accessToken = login.getString("accesstoken","");
 
         progressDialog = new ProgressDialog(this.context);
         progressDialog.setMessage("Silahkan Tunggu");
@@ -57,10 +47,8 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
 
         try {
             completeUrl = url + param1 + this.workItemID
-                              + param2 + URLEncoder.encode(this.description, "UTF-8")
-                              + param3 + this.estimatedDate
-                              + param4 + this.username
-                              + param5 + this.accessToken;
+                    + param2 + username
+                    + param3 + accessToken;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +83,7 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
             try {
                 boolean isSuccessful = result.getBoolean("IsSuccessful");
                 if(isSuccessful){
-                    Toast.makeText(context, "Data berhasil diubah", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Data berhasil hapus", Toast.LENGTH_LONG).show();
 
                     if(GlobalVariable.unfinishedAdapterToMe != null){
                         GlobalVariable.LastID_UnFinished_ToMe = -1;

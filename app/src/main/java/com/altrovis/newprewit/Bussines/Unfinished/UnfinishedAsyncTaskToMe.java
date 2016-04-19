@@ -16,10 +16,11 @@ import java.util.ArrayList;
  * Created by ricki on 4/5/2016.
  */
 public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
+
     ProgressDialog progressDialog;
     Context context;
     UnfinishedAdapter adapter;
-    ArrayList<WorkItem> listOfUnfinishedWorkItem;
+    ArrayList<WorkItem> listOfWorkItem = new ArrayList<WorkItem>();
 
     String url = GlobalVariable.UrlGetAllUnFinishedWorkItemsToMe;
     String param1 = "?username=";
@@ -57,7 +58,7 @@ public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            listOfUnfinishedWorkItem = UnfinishedHelper.getListOfWorkItem(completeURL);
+            listOfWorkItem = UnfinishedHelper.getListOfWorkItem(completeURL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,12 +73,17 @@ public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
         }
 
         if(GlobalFunction.isOnline(context)){
-            adapter.addAll(listOfUnfinishedWorkItem);
 
-            if(listOfUnfinishedWorkItem.size() > 0){
-                int lastRetrivedID = listOfUnfinishedWorkItem.get(listOfUnfinishedWorkItem.size() - 1).getID();
+            adapter.addAll(listOfWorkItem);
+            GlobalVariable.listOfWorkItemUnfinishedToMe.clear();
+            GlobalVariable.listOfWorkItemUnfinishedToMe.addAll(listOfWorkItem);
+
+            if(listOfWorkItem.size() > 0){
+                int lastRetrivedID = listOfWorkItem.get(listOfWorkItem.size() - 1).getID();
                 GlobalVariable.LastID_UnFinished_ToMe = lastRetrivedID;
-            } else {
+            }
+
+            if (listOfWorkItem.size() < 20){
                 GlobalVariable.All_UnFinishedToMe_Retrieved = true;
             }
 

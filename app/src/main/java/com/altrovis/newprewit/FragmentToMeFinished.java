@@ -14,7 +14,6 @@ import com.altrovis.newprewit.Entities.GlobalVariable;
 
 public class FragmentToMeFinished extends Fragment {
 
-    FinishedAdapter adapter;
     ListView listViewFinishedToMe;
 
     @Override
@@ -32,19 +31,32 @@ public class FragmentToMeFinished extends Fragment {
 
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedToMe);
-        listViewFinishedToMe.setAdapter(adapter);
-        listViewFinishedToMe.setOnScrollListener(new FinishedEndlessScrollToMe((ActivityMain) getActivity(), adapter));
+        GlobalVariable.finishedAdapterToMe = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedToMe);
+        listViewFinishedToMe.setAdapter(GlobalVariable.finishedAdapterToMe);
+        listViewFinishedToMe.setOnScrollListener(new FinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterToMe));
+
+        if(GlobalVariable.listOfFinishedToMe.size() == 0){
+            refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    GlobalVariable.LastID_Finished_ToMe = -1;
+                    GlobalVariable.All_FinishedToMe_Retrieved = false;
+                    GlobalVariable.finishedAdapterToMe.clear();
+                    listViewFinishedToMe.setAdapter(GlobalVariable.finishedAdapterToMe);
+                    listViewFinishedToMe.setOnScrollListener(new FinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterToMe));
+                    refreshLayout.setRefreshing(false);
+                }
+            });
+        }
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 GlobalVariable.LastID_Finished_ToMe = -1;
                 GlobalVariable.All_FinishedToMe_Retrieved = false;
-                adapter.clear();
-                //adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedToMe);
-                listViewFinishedToMe.setAdapter(adapter);
-                listViewFinishedToMe.setOnScrollListener(new FinishedEndlessScrollToMe((ActivityMain) getActivity(), adapter));
+                GlobalVariable.finishedAdapterToMe.clear();
+                listViewFinishedToMe.setAdapter(GlobalVariable.finishedAdapterToMe);
+                listViewFinishedToMe.setOnScrollListener(new FinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterToMe));
                 refreshLayout.setRefreshing(false);
             }
         });

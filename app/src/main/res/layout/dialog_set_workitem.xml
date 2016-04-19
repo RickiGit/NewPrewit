@@ -15,7 +15,10 @@
     <TextView
         android:id="@+id/textView_assignedBy"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+		android:text="Ricki"
+		android:textSize="16dp"
+		android:layout_marginBottom="5dp"/>
 
     <TextView
 			android:text="Description"
@@ -36,8 +39,11 @@
 
     <TextView
         android:id="@+id/textView_project"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Ricki"
+		android:textSize="16dp"
+		android:layout_marginBottom="5dp"/>
 
     <TextView
         android:text="Estimation Date"
@@ -50,6 +56,6 @@
         android:id="@+id/editText_EstimationDate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
 </LinearLayout>

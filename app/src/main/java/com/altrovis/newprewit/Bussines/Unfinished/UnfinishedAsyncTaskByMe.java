@@ -20,7 +20,7 @@ public class UnfinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
     ProgressDialog progressDialog;
     Context context;
     UnfinishedAdapter adapter;
-    ArrayList<WorkItem> listOfUnfinishedWorkItem;
+    ArrayList<WorkItem> listOfWorkItem = new ArrayList<WorkItem>();
 
     String url = GlobalVariable.UrlGetAllUnFinishedWorkItemsByMe;
     String param1 = "?username=";
@@ -40,7 +40,7 @@ public class UnfinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
         accessToken = login.getString("accesstoken","");
 
         completeURL = url.concat(param1).concat(username).concat(param2).concat(accessToken)
-                .concat(param3).concat(String.valueOf(GlobalVariable.LastID_UnFinished_ByMe));
+                      .concat(param3).concat(String.valueOf(GlobalVariable.LastID_UnFinished_ByMe));
 
         progressDialog = new ProgressDialog(this.context);
         progressDialog.setMessage("Silahkan Tunggu");
@@ -58,7 +58,7 @@ public class UnfinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            listOfUnfinishedWorkItem = UnfinishedHelper.getListOfWorkItem(completeURL);
+            listOfWorkItem = UnfinishedHelper.getListOfWorkItem(completeURL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,12 +73,16 @@ public class UnfinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
         }
 
         if(GlobalFunction.isOnline(context)){
-            adapter.addAll(listOfUnfinishedWorkItem);
+            adapter.addAll(listOfWorkItem);
+            GlobalVariable.listOfWorkItemUnfinishedByMe.clear();
+            GlobalVariable.listOfWorkItemUnfinishedByMe.addAll(listOfWorkItem);
 
-            if(listOfUnfinishedWorkItem.size() > 0){
-                int lastRetrivedID = listOfUnfinishedWorkItem.get(listOfUnfinishedWorkItem.size() - 1).getID();
+            if(listOfWorkItem.size() > 0){
+                int lastRetrivedID = listOfWorkItem.get(listOfWorkItem.size() - 1).getID();
                 GlobalVariable.LastID_UnFinished_ByMe = lastRetrivedID;
-            } else {
+            }
+
+            if(listOfWorkItem.size() < 20){
                 GlobalVariable.All_UnFinishedByMe_Retrieved = true;
             }
 

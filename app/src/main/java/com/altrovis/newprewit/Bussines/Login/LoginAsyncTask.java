@@ -15,6 +15,8 @@ import com.altrovis.newprewit.Entities.GlobalVariable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
+
 /**
  * Created by ricki on 4/5/2016.
  */
@@ -56,7 +58,12 @@ public class LoginAsyncTask extends AsyncTask<Void, Void, JSONObject> {
     protected JSONObject doInBackground(Void... params) {
         try {
             completeUrl = url.concat(param1).concat(username).concat(param2).concat(password);
-            return GlobalFunction.GetJSONObject(completeUrl);
+            if(GlobalFunction.isConnected(context, new URL(completeUrl))){
+                return GlobalFunction.GetJSONObject(completeUrl);
+            }
+            else {
+                Toast.makeText(context, "Koneksi anda bermasalah", Toast.LENGTH_LONG).show();
+            }
         } catch (Exception e) {
             errorMessage = e.getMessage();
         }

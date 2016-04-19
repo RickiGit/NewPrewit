@@ -32,6 +32,7 @@ import com.altrovis.newprewit.Bussines.Logout.LogoutAsyncTask;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.Project;
 import com.altrovis.newprewit.Entities.ProjectMember;
+import com.altrovis.newprewit.Entities.WorkItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -58,14 +59,17 @@ public class ActivityMain extends AppCompatActivity
     private MaterialDialog dialog;
     private String username;
 
+    android.support.v7.app.ActionBar actionBar;
+    android.support.v4.app.FragmentTransaction fragmentTransaction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         if(actionBar != null){
-            actionBar.setTitle("Prewit");
+            actionBar.setTitle("To Me Unfinished");
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -80,11 +84,19 @@ public class ActivityMain extends AppCompatActivity
         employeeAdapter = new SpinnerEmployeeAdapter();
         projectAdapter = new SpinnerProjectAdapter();
 
+        GlobalVariable.activityMain = this;
+
+        GlobalVariable.listOfWorkItemFinishedAll = new ArrayList<WorkItem>();
+        GlobalVariable.listOfWorkItemFinishedByMe = new ArrayList<WorkItem>();
+        GlobalVariable.listOfWorkItemFinishedToMe = new ArrayList<WorkItem>();
+        GlobalVariable.listOfWorkItemUnfinishedAll = new ArrayList<WorkItem>();
+        GlobalVariable.listOfWorkItemUnfinishedByMe = new ArrayList<WorkItem>();
+        GlobalVariable.listOfWorkItemUnfinishedToMe = new ArrayList<WorkItem>();
+
         this.setFloactingActionButton();
 
         FragmentToMeUnfinished fragment = new FragmentToMeUnfinished();
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_container, fragment);
         fragmentTransaction.commit();
 
@@ -158,54 +170,62 @@ public class ActivityMain extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_to_me_unfinished) {
-            FragmentToMeUnfinished fragment = new FragmentToMeUnfinished();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new FragmentToMeUnfinished());
             fragmentTransaction.commit();
+
+            actionBar = getSupportActionBar();
+            if(actionBar != null){
+                actionBar.setTitle("To Me Unfinished");
+            }
         }else if (id == R.id.nav_by_me_unfinished) {
-            FragmentByMeUnfinished fragment = new FragmentByMeUnfinished();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new FragmentByMeUnfinished());
             fragmentTransaction.commit();
+
+            actionBar = getSupportActionBar();
+            if(actionBar != null){
+                actionBar.setTitle("By Me Unfinished");
+            }
         }else if(id == R.id.nav_all_unfinished){
-            FragmentAllUnfinished fragment = new FragmentAllUnfinished();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new FragmentAllUnfinished());
             fragmentTransaction.commit();
+
+            actionBar = getSupportActionBar();
+            if(actionBar != null){
+                actionBar.setTitle("All Unfinished");
+            }
         }else if(id == R.id.nav_all_finished){
-            FragmentAllFinished fragment = new FragmentAllFinished();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new FragmentAllFinished());
             fragmentTransaction.commit();
+
+            actionBar = getSupportActionBar();
+            if(actionBar != null){
+                actionBar.setTitle("All Finished");
+            }
         }else if(id == R.id.nav_to_me_finished) {
-            FragmentToMeFinished fragment = new FragmentToMeFinished();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new FragmentToMeFinished());
             fragmentTransaction.commit();
+
+            actionBar = getSupportActionBar();
+            if(actionBar != null){
+                actionBar.setTitle("To Me Finished");
+            }
         }else if(id == R.id.nav_by_me_finished){
-            FragmentByMeFinished fragment = new FragmentByMeFinished();
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, fragment);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new FragmentByMeFinished());
             fragmentTransaction.commit();
+
+            actionBar = getSupportActionBar();
+            if(actionBar != null){
+                actionBar.setTitle("By Me Finished");
+            }
         }else if(id == R.id.nav_sign_out){
             new LogoutAsyncTask(this).execute();
         }
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -247,7 +267,6 @@ public class ActivityMain extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-
                 dialog = new MaterialDialog.Builder(view.getContext()).title("Add New Work Item")
                         .customView(R.layout.dialog_add_workitem, true)
                         .positiveText("Ok")
@@ -264,10 +283,7 @@ public class ActivityMain extends AppCompatActivity
                                         assignedToID, dialog).execute();
 
                             }
-                        })
-                        .show();
-
-                new GetAllProjectsAsyncTask(view.getContext(), spProjectAdapter, dialog).execute();
+                        }).show();
 
                 spProject = (Spinner) dialog.getCustomView().findViewById(R.id.spinner_project);
                 spProject.setAdapter(spProjectAdapter);
@@ -290,6 +306,10 @@ public class ActivityMain extends AppCompatActivity
                     public void afterTextChanged(Editable s) {}
                 });
 
+                if(projectAdapter != null && employeeAdapter != null){
+                    new GetAllProjectsAsyncTask(view.getContext(), spProjectAdapter, dialog).execute();
+                }
+
             }
         });
 
@@ -306,4 +326,21 @@ public class ActivityMain extends AppCompatActivity
 
         return 0;
     }
+
+//    public void checkListActive(){
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        Object currentFragment = fragmentManager.findFragmentById(R.id.frame_container);
+//        if(currentFragment instanceof FragmentToMeUnfinished){
+//            FragmentToMeUnfinished fragment = (FragmentToMeUnfinished)currentFragment;
+//            fragment.refreshList();
+//        }
+//        else if(currentFragment instanceof FragmentByMeUnfinished){
+//            FragmentByMeUnfinished fragment = (FragmentByMeUnfinished)currentFragment;
+//            fragment.refreshList();
+//        }
+//        else if(currentFragment instanceof FragmentAllUnfinished){
+//            FragmentAllUnfinished fragment = (FragmentAllUnfinished)currentFragment;
+//            fragment.refreshList();
+//        }
+//    }
 }

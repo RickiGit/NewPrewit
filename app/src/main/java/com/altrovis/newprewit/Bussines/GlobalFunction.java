@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,6 +20,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.CompleteWorkItemAsyncTask;
 import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.EditWorkItemAsyncTask;
+import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.EditWorkItemDescriptionAsyncTask;
+import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.HapusWorkItemAsyncTask;
 import com.altrovis.newprewit.Entities.WorkItem;
 import com.altrovis.newprewit.R;
 
@@ -26,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -112,15 +116,13 @@ public class GlobalFunction {
     static String deskripsi;
     static String tanggalEstimasi;
 
-    public static void showDialog(View view, final WorkItem workItem) {
+    public static void showDialog(final View view, final WorkItem workItem) {
 
         MaterialDialog dialog;
-        SharedPreferences login = view.getContext().getSharedPreferences
-                ("login", view.getContext().MODE_PRIVATE);
+        SharedPreferences login = view.getContext().getSharedPreferences("login", view.getContext().MODE_PRIVATE);
         String username = login.getString("username", "");
 
-        if (workItem.getAssignedTo().equalsIgnoreCase(username)
-                && workItem.getEstimatedTime() != null) {
+        if (workItem.getAssignedTo().equalsIgnoreCase(username) && workItem.getEstimatedTime() != null) {
             dialog = new MaterialDialog.Builder(view.getContext()).title("Detail")
                     .customView(R.layout.dialog_set_workitem, true)
                     .positiveText("Done")
@@ -139,8 +141,42 @@ public class GlobalFunction {
                         }
                     })
                     .show();
-        } else if (workItem.getAssignedBy().equalsIgnoreCase(username)
-                || (workItem.getAssignedTo().equalsIgnoreCase(username))) {
+        }else if (workItem.getAssignedTo().equalsIgnoreCase(username) && workItem.getEstimatedTime() == null) {
+            dialog = new MaterialDialog.Builder(view.getContext()).title("Detail")
+                    .customView(R.layout.dialog_set_workitem, true)
+                    .positiveText("Save")
+                    .neutralText("Cancel")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            if(tanggalEstimasi.equals("")){
+                                new EditWorkItemDescriptionAsyncTask(dialog.getContext(), deskripsi, workItem.getID()).execute();
+                            }else{
+                                new EditWorkItemAsyncTask(dialog.getContext(), deskripsi, tanggalEstimasi, workItem.getID()).execute();
+                            }
+                        }
+                    })
+                    .show();
+        }else if(workItem.getAssignedBy().equalsIgnoreCase(username) && workItem.getEstimatedTime() == null){
+            dialog = new MaterialDialog.Builder(view.getContext()).title("Detail")
+                    .customView(R.layout.dialog_set_workitem, true)
+                    .positiveText("Save")
+                    .negativeText("Hapus")
+                    .neutralText("Cancel")
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            new HapusWorkItemAsyncTask(dialog.getContext(), workItem.getID()).execute();
+                        }
+                    })
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            new EditWorkItemDescriptionAsyncTask(dialog.getContext(), deskripsi, workItem.getID()).execute();
+                        }
+                    })
+                    .show();
+        } else if (workItem.getAssignedBy().equalsIgnoreCase(username) || (workItem.getAssignedTo().equalsIgnoreCase(username))) {
             dialog = new MaterialDialog.Builder(view.getContext()).title("Detail")
                     .customView(R.layout.dialog_set_workitem, true)
                     .positiveText("Save")
@@ -163,17 +199,37 @@ public class GlobalFunction {
         assignedBy.setText(workItem.getAssignedBy());
         TextView project = (TextView) dialog.getCustomView().findViewById(R.id.textView_project);
         project.setText(workItem.getProjectName());
-
         EditText editTextDescription = (EditText) dialog.getCustomView().findViewById(R.id.editText_description);
         editTextDescription.setText(workItem.getDescription());
+        final EditText editTextEstimationDate = (EditText) dialog.getCustomView().findViewById(R.id.editText_EstimationDate);
+
         if(!workItem.getAssignedBy().equalsIgnoreCase(username)){
             editTextDescription.setEnabled(false);
+
+            if(workItem.getEstimatedTime() != null){
+                editTextEstimationDate.setEnabled(false);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                String tanggal = sdf.format(workItem.getEstimatedTime());
+                editTextEstimationDate.setText(tanggal);
+            }
         }
 
-        final EditText editTextEstimationDate = (EditText) dialog.getCustomView().findViewById(R.id.editText_EstimationDate);
-        if(!username.equalsIgnoreCase(workItem.getAssignedBy())
-                && !username.equalsIgnoreCase(workItem.getAssignedTo())){
+        if(workItem.getEstimatedTime() != null){
+            editTextDescription.setEnabled(false);
             editTextEstimationDate.setEnabled(false);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String tanggal = sdf.format(workItem.getEstimatedTime());
+            editTextEstimationDate.setText(tanggal);
+        }
+
+        if(!username.equalsIgnoreCase(workItem.getAssignedTo())) {
+            editTextEstimationDate.setEnabled(false);
+
+            if(workItem.getEstimatedTime() != null){
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                String tanggal = sdf.format(workItem.getEstimatedTime());
+                editTextEstimationDate.setText(tanggal);
+            }
         } else {
             if(workItem.getEstimatedTime() != null){
                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -181,6 +237,7 @@ public class GlobalFunction {
                 editTextEstimationDate.setText(tanggal);
             }
 
+            editTextEstimationDate.setEnabled(true);
             editTextEstimationDate.setInputType(InputType.TYPE_NULL);
             editTextEstimationDate.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -234,5 +291,36 @@ public class GlobalFunction {
             public void afterTextChanged(Editable s) {}
         });
 
+    }
+
+    public static boolean isConnected(Context context, URL url) {
+        ConnectivityManager cm = (ConnectivityManager)context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            try {
+                try {
+                    HttpURLConnection urlc = null;
+                    urlc = (HttpURLConnection)url.openConnection();
+                    urlc.setRequestProperty("User-Agent", "test");
+                    urlc.setRequestProperty("Connection", "close");
+                    urlc.setConnectTimeout(1000); // mTimeout is in seconds
+                    urlc.connect();
+                    if (urlc.getResponseCode() == 200) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                Log.i("warning", "Error checking internet connection", e);
+                return false;
+            }
+        }
+        return false;
     }
 }

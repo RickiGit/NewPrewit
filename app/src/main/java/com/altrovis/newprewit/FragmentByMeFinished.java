@@ -14,7 +14,6 @@ import com.altrovis.newprewit.Entities.GlobalVariable;
 
 public class FragmentByMeFinished extends Fragment {
 
-    FinishedAdapter adapter;
     ListView listViewFinishedByMe;
 
     @Override
@@ -31,19 +30,32 @@ public class FragmentByMeFinished extends Fragment {
         listViewFinishedByMe = (ListView) view.findViewById(R.id.ListViewByMeFinished);
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedByMe);
-        listViewFinishedByMe.setAdapter(adapter);
-        listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
+        GlobalVariable.finishedAdapterByMe = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedByMe);
+        listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);
+        listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe));
+
+        if(GlobalVariable.listOfFinishedByMe.size() == 0){
+            refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    GlobalVariable.LastID_Finished_ByMe = -1;
+                    GlobalVariable.All_FinishedByMe_Retrieved = false;
+                    GlobalVariable.finishedAdapterByMe.clear();
+                    listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);
+                    listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe));
+                    refreshLayout.setRefreshing(false);
+                }
+            });
+        }
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 GlobalVariable.LastID_Finished_ByMe = -1;
                 GlobalVariable.All_FinishedByMe_Retrieved = false;
-                adapter.clear();
-                //adapter = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedByMe);
-                listViewFinishedByMe.setAdapter(adapter);
-                listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), adapter));
+                GlobalVariable.finishedAdapterByMe.clear();
+                listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);
+                listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe));
                 refreshLayout.setRefreshing(false);
             }
         });
