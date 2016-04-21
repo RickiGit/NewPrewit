@@ -34,6 +34,7 @@ public class FragmentToMeUnfinished extends Fragment {
         listViewUnfinishedToMe = (ListView) view.findViewById(R.id.ListViewToMeUnfinished);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
+        GlobalVariable.listOfWorkItemUnfinishedToMe.clear();
         GlobalVariable.unfinishedAdapterToMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedToMe);
         listViewUnfinishedToMe.setAdapter(GlobalVariable.unfinishedAdapterToMe);
         listViewUnfinishedToMe.setOnScrollListener(new UnfinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterToMe));

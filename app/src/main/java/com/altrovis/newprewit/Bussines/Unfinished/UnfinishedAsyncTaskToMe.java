@@ -75,7 +75,6 @@ public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
         if(GlobalFunction.isOnline(context)){
 
             adapter.addAll(listOfWorkItem);
-            GlobalVariable.listOfWorkItemUnfinishedToMe.clear();
             GlobalVariable.listOfWorkItemUnfinishedToMe.addAll(listOfWorkItem);
 
             if(listOfWorkItem.size() > 0){
