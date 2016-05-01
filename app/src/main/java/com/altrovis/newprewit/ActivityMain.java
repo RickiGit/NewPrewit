@@ -244,13 +244,15 @@ public class ActivityMain extends AppCompatActivity
         }
     }
 
+
     public class SpinnerProjectAdapter implements AdapterView.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             selectedProject = listProject.get(position);
 
-            new GetAllProjectMembersAsyncTask(view.getContext(), selectedProject.getID(), spEmployeeAdapter,
-                    dialog).execute();
+            if(selectedProject != null){
+                new GetAllProjectMembersAsyncTask(view.getContext(), selectedProject.getID(), spEmployeeAdapter, dialog).execute();
+            }
 
         }
 
@@ -326,21 +328,4 @@ public class ActivityMain extends AppCompatActivity
 
         return 0;
     }
-
-//    public void checkListActive(){
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        Object currentFragment = fragmentManager.findFragmentById(R.id.frame_container);
-//        if(currentFragment instanceof FragmentToMeUnfinished){
-//            FragmentToMeUnfinished fragment = (FragmentToMeUnfinished)currentFragment;
-//            fragment.refreshList();
-//        }
-//        else if(currentFragment instanceof FragmentByMeUnfinished){
-//            FragmentByMeUnfinished fragment = (FragmentByMeUnfinished)currentFragment;
-//            fragment.refreshList();
-//        }
-//        else if(currentFragment instanceof FragmentAllUnfinished){
-//            FragmentAllUnfinished fragment = (FragmentAllUnfinished)currentFragment;
-//            fragment.refreshList();
-//        }
-//    }
 }

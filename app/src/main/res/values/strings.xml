@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewPrewit</string>
+    <string name="app_name">Prewit</string>
     <string name="title_activity_activity_main">To Me Unfinished</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -74,7 +74,6 @@ public class UnfinishedAsyncTaskByMe extends AsyncTask<Void, Void, Void> {
 
         if(GlobalFunction.isOnline(context)){
             adapter.addAll(listOfWorkItem);
-            GlobalVariable.listOfWorkItemUnfinishedByMe.addAll(listOfWorkItem);
 
             if(listOfWorkItem.size() > 0){
                 int lastRetrivedID = listOfWorkItem.get(listOfWorkItem.size() - 1).getID();

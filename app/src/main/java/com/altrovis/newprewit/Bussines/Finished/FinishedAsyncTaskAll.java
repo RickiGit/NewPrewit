@@ -20,7 +20,7 @@ public class FinishedAsyncTaskAll extends AsyncTask<Void, Void, Void> {
     ProgressDialog progressDialog;
     Context context;
     FinishedAdapter adapter;
-    //ArrayList<WorkItem> listOfFinishedWorkItem;
+    ArrayList<WorkItem> listOfFinishedWorkItem = new ArrayList<WorkItem>();
 
     String url = GlobalVariable.UrlGetAllFinishedWorkItems;
     String param1 = "?username=";
@@ -58,7 +58,7 @@ public class FinishedAsyncTaskAll extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            GlobalVariable.listOfWorkItemFinishedAll = FinishedHelper.getListOfWorkItem(completeURL);
+            listOfFinishedWorkItem = FinishedHelper.getListOfWorkItem(completeURL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,12 +74,14 @@ public class FinishedAsyncTaskAll extends AsyncTask<Void, Void, Void> {
 
         if(GlobalFunction.isOnline(context)){
 
-            adapter.addAll(GlobalVariable.listOfWorkItemFinishedAll);
+            adapter.addAll(listOfFinishedWorkItem);
 
-            if(GlobalVariable.listOfWorkItemFinishedAll.size() > 0){
-                int lastRetrivedID = GlobalVariable.listOfWorkItemFinishedAll.get(GlobalVariable.listOfWorkItemFinishedAll.size() - 1).getID();
+            if(listOfFinishedWorkItem.size() > 0){
+                int lastRetrivedID = listOfFinishedWorkItem.get(listOfFinishedWorkItem.size() - 1).getID();
                 GlobalVariable.LastID_Finished_All = lastRetrivedID;
-            } else {
+            }
+
+            if(listOfFinishedWorkItem.size() < 20){
                 GlobalVariable.All_Finished_Retrieved = true;
             }
 

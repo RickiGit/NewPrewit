@@ -3,7 +3,6 @@ xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/SwipeRefreshLayout"
-    android:background="@drawable/background_prewit"
     tools:context="com.altrovis.newprewit.FragmentAllUnfinished">
 
 <!-- TODO: Update blank fragment layout -->

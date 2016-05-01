@@ -1,16 +1,19 @@
 package com.altrovis.newprewit;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.altrovis.newprewit.Bussines.GlobalFunction;
 import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedAdapter;
+import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedAsyncTaskToMe;
 import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedEndlessScrollToMe;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.WorkItem;
@@ -34,10 +37,8 @@ public class FragmentToMeUnfinished extends Fragment {
         listViewUnfinishedToMe = (ListView) view.findViewById(R.id.ListViewToMeUnfinished);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        GlobalVariable.listOfWorkItemUnfinishedToMe.clear();
         GlobalVariable.unfinishedAdapterToMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedToMe);
         listViewUnfinishedToMe.setAdapter(GlobalVariable.unfinishedAdapterToMe);
-        listViewUnfinishedToMe.setOnScrollListener(new UnfinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterToMe));
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -45,6 +46,7 @@ public class FragmentToMeUnfinished extends Fragment {
                 GlobalVariable.LastID_UnFinished_ToMe = -1;
                 GlobalVariable.All_UnFinishedToMe_Retrieved = false;
                 GlobalVariable.unfinishedAdapterToMe.clear();
+
                 listViewUnfinishedToMe.setAdapter(GlobalVariable.unfinishedAdapterToMe);
                 listViewUnfinishedToMe.setOnScrollListener(new UnfinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterToMe));
                 refreshLayout.setRefreshing(false);

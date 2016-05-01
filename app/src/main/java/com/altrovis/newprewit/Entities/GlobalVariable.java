@@ -79,4 +79,6 @@ public class GlobalVariable {
     public static FinishedAdapter finishedAdapterByMe;
     public static FinishedAdapter finishedAdapterAll;
 
+    public static Boolean statusList = true;
+
 }

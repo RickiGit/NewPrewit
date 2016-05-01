@@ -113,6 +113,7 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                         GlobalVariable.LastID_UnFinished_ToMe = -1;
                         GlobalVariable.All_UnFinishedToMe_Retrieved = false;
                         GlobalVariable.unfinishedAdapterToMe.clear();
+                        GlobalVariable.listOfWorkItemUnfinishedByMe.clear();
 
                         UnfinishedAsyncTaskToMe asyncTaskToMe = new UnfinishedAsyncTaskToMe(context, GlobalVariable.unfinishedAdapterToMe);
                         asyncTaskToMe.execute();
@@ -123,6 +124,7 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                         GlobalVariable.LastID_UnFinished_ByMe = -1;
                         GlobalVariable.All_UnFinishedByMe_Retrieved = false;
                         GlobalVariable.unfinishedAdapterByMe.clear();
+                        GlobalVariable.listOfWorkItemUnfinishedByMe.clear();
 
                         UnfinishedAsyncTaskByMe asyncTaskByMe = new UnfinishedAsyncTaskByMe(context, GlobalVariable.unfinishedAdapterByMe);
                         asyncTaskByMe.execute();
@@ -133,6 +135,7 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                         GlobalVariable.LastID_UnFinished_All = -1;
                         GlobalVariable.All_UnFinished_Retrieved = false;
                         GlobalVariable.unfinishedAdapterAll.clear();
+                        GlobalVariable.listOfWorkItemUnfinishedAll.clear();
 
                         UnfinishedAsyncTaskAll asyncTaskAll = new UnfinishedAsyncTaskAll(context, GlobalVariable.unfinishedAdapterAll);
                         asyncTaskAll.execute();
@@ -143,6 +146,7 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                         GlobalVariable.LastID_Finished_ToMe = -1;
                         GlobalVariable.All_FinishedToMe_Retrieved = false;
                         GlobalVariable.finishedAdapterToMe.clear();
+                        GlobalVariable.listOfWorkItemFinishedToMe.clear();
 
                         FinishedAsyncTaskToMe asyncTaskToMeFinished = new FinishedAsyncTaskToMe(context, GlobalVariable.finishedAdapterToMe);
                         asyncTaskToMeFinished.execute();
@@ -153,6 +157,7 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                         GlobalVariable.LastID_Finished_ByMe = -1;
                         GlobalVariable.All_FinishedByMe_Retrieved = false;
                         GlobalVariable.finishedAdapterByMe.clear();
+                        GlobalVariable.listOfWorkItemFinishedByMe.clear();
 
                         FinishedAsyncTaskByMe asyncTaskByMeFinished = new FinishedAsyncTaskByMe(context, GlobalVariable.finishedAdapterByMe);
                         asyncTaskByMeFinished.execute();
@@ -163,6 +168,7 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                         GlobalVariable.LastID_Finished_All = -1;
                         GlobalVariable.All_Finished_Retrieved = false;
                         GlobalVariable.finishedAdapterAll.clear();
+                        GlobalVariable.listOfWorkItemFinishedAll.clear();
 
                         FinishedAsyncTaskAll asyncTaskAllFinished = new FinishedAsyncTaskAll(context, GlobalVariable.finishedAdapterAll);
                         asyncTaskAllFinished.execute();

@@ -20,7 +20,7 @@ public class UnfinishedAsyncTaskAll extends AsyncTask<Void, Void, Void> {
     ProgressDialog progressDialog;
     Context context;
     UnfinishedAdapter adapter;
-    ArrayList<WorkItem> listOfWorkItem = new ArrayList<WorkItem>();
+    ArrayList<WorkItem> listOfWorkItem;
 
     String url = GlobalVariable.UrlGetAllUnFinishedWorkItems;
     String param1 = "?username=";
@@ -74,14 +74,10 @@ public class UnfinishedAsyncTaskAll extends AsyncTask<Void, Void, Void> {
 
         if(GlobalFunction.isOnline(context)){
             adapter.addAll(listOfWorkItem);
-            GlobalVariable.listOfWorkItemUnfinishedAll.addAll(listOfWorkItem);
 
             if(listOfWorkItem.size() > 0){
                 int lastRetrivedID = listOfWorkItem.get(listOfWorkItem.size() - 1).getID();
                 GlobalVariable.LastID_UnFinished_All = lastRetrivedID;
-            }
-            else{
-
             }
 
             if(listOfWorkItem.size() < 20) {

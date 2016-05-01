@@ -20,7 +20,7 @@ public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
     ProgressDialog progressDialog;
     Context context;
     UnfinishedAdapter adapter;
-    ArrayList<WorkItem> listOfWorkItem = new ArrayList<WorkItem>();
+    ArrayList<WorkItem> listOfWorkItem;
 
     String url = GlobalVariable.UrlGetAllUnFinishedWorkItemsToMe;
     String param1 = "?username=";
@@ -39,8 +39,7 @@ public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
         username = login.getString("username", "");
         accessToken = login.getString("accesstoken","");
 
-        completeURL = url.concat(param1).concat(username).concat(param2).concat(accessToken)
-                .concat(param3).concat(String.valueOf(GlobalVariable.LastID_UnFinished_ToMe));
+        completeURL = url.concat(param1).concat(username).concat(param2).concat(accessToken).concat(param3).concat(String.valueOf(GlobalVariable.LastID_UnFinished_ToMe));
 
         progressDialog = new ProgressDialog(this.context);
         progressDialog.setMessage("Silahkan Tunggu");
@@ -73,11 +72,8 @@ public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
         }
 
         if(GlobalFunction.isOnline(context)){
-
-            adapter.addAll(listOfWorkItem);
-            GlobalVariable.listOfWorkItemUnfinishedToMe.addAll(listOfWorkItem);
-
             if(listOfWorkItem.size() > 0){
+                adapter.addAll(listOfWorkItem);
                 int lastRetrivedID = listOfWorkItem.get(listOfWorkItem.size() - 1).getID();
                 GlobalVariable.LastID_UnFinished_ToMe = lastRetrivedID;
             }
