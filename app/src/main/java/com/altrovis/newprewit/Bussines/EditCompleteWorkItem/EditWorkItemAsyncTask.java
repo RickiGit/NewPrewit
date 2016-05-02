@@ -101,30 +101,18 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
                         GlobalVariable.LastID_UnFinished_ToMe = -1;
                         GlobalVariable.All_UnFinishedToMe_Retrieved = false;
                         GlobalVariable.unfinishedAdapterToMe.clear();
-
-                        UnfinishedAsyncTaskToMe asyncTaskToMe = new UnfinishedAsyncTaskToMe(context, GlobalVariable.unfinishedAdapterToMe);
-                        asyncTaskToMe.execute();
-                        GlobalVariable.unfinishedAdapterToMe.notifyDataSetChanged();
                     }
 
                     if(GlobalVariable.unfinishedAdapterByMe != null){
                         GlobalVariable.LastID_UnFinished_ByMe = -1;
                         GlobalVariable.All_UnFinishedByMe_Retrieved = false;
                         GlobalVariable.unfinishedAdapterByMe.clear();
-
-                        UnfinishedAsyncTaskByMe asyncTaskByMe = new UnfinishedAsyncTaskByMe(context, GlobalVariable.unfinishedAdapterByMe);
-                        asyncTaskByMe.execute();
-                        GlobalVariable.unfinishedAdapterByMe.notifyDataSetChanged();
                     }
 
                     if(GlobalVariable.unfinishedAdapterAll != null){
                         GlobalVariable.LastID_UnFinished_All = -1;
                         GlobalVariable.All_UnFinished_Retrieved = false;
                         GlobalVariable.unfinishedAdapterAll.clear();
-
-                        UnfinishedAsyncTaskAll asyncTaskAll = new UnfinishedAsyncTaskAll(context, GlobalVariable.unfinishedAdapterAll);
-                        asyncTaskAll.execute();
-                        GlobalVariable.unfinishedAdapterAll.notifyDataSetChanged();
                     }
                 } else {
                     String errorMessage = result.getString("ErrorMessage");

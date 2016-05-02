@@ -27,7 +27,7 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
 
     Context context;
     int resource;
-    ArrayList<WorkItem> listOfUnfinished;
+    ArrayList<WorkItem> listOfUnfinished = new ArrayList<WorkItem>();
     DateFormat dateFormat;
 
     public UnfinishedAdapter(Context context, int resource, ArrayList<WorkItem> listOfUnfinished) {

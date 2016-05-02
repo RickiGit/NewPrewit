@@ -30,7 +30,7 @@ public class FragmentByMeFinished extends Fragment {
         listViewFinishedByMe = (ListView) view.findViewById(R.id.ListViewByMeFinished);
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        GlobalVariable.finishedAdapterByMe = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfFinishedByMe);
+        GlobalVariable.finishedAdapterByMe = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfWorkItemFinishedByMe);
         listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);
         listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe));
 

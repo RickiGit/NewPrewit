@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -67,6 +68,7 @@ public class ActivityMain extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set Action Bar
         actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setTitle("To Me Unfinished");
@@ -75,14 +77,21 @@ public class ActivityMain extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Set List Spinner New Workitem
+
         listEmployee = new ArrayList<>();
         spEmployeeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listEmployee);
 
         listProject = new ArrayList<>();
         spProjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listProject);
 
-        employeeAdapter = new SpinnerEmployeeAdapter();
-        projectAdapter = new SpinnerProjectAdapter();
+        if(listEmployee.size() == 0){
+            employeeAdapter = new SpinnerEmployeeAdapter();
+        }
+
+        if(listProject.size() == 0) {
+            projectAdapter = new SpinnerProjectAdapter();
+        }
 
         GlobalVariable.activityMain = this;
 
@@ -95,14 +104,15 @@ public class ActivityMain extends AppCompatActivity
 
         this.setFloactingActionButton();
 
+        // Default Fragment (Unfinished To Me)
         FragmentToMeUnfinished fragment = new FragmentToMeUnfinished();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_container, fragment);
         fragmentTransaction.commit();
 
+        // Set Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -235,7 +245,9 @@ public class ActivityMain extends AppCompatActivity
     public class SpinnerEmployeeAdapter implements AdapterView.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            selectedEmployee = listEmployee.get(position);
+            if(listEmployee.size() != 0){
+                selectedEmployee = listEmployee.get(position);
+            }
         }
 
         @Override
@@ -248,12 +260,11 @@ public class ActivityMain extends AppCompatActivity
     public class SpinnerProjectAdapter implements AdapterView.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            selectedProject = listProject.get(position);
 
-            if(selectedProject != null){
+            if(listProject.size() != 0){
+                selectedProject = listProject.get(position);
                 new GetAllProjectMembersAsyncTask(view.getContext(), selectedProject.getID(), spEmployeeAdapter, dialog).execute();
             }
-
         }
 
         @Override

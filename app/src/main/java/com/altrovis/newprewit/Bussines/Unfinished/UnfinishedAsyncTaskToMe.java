@@ -72,17 +72,15 @@ public class UnfinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
         }
 
         if(GlobalFunction.isOnline(context)){
+
             if(listOfWorkItem.size() > 0){
                 adapter.addAll(listOfWorkItem);
+                adapter.notifyDataSetChanged();
                 int lastRetrivedID = listOfWorkItem.get(listOfWorkItem.size() - 1).getID();
                 GlobalVariable.LastID_UnFinished_ToMe = lastRetrivedID;
-            }
-
-            if (listOfWorkItem.size() < 20){
+            }else{
                 GlobalVariable.All_UnFinishedToMe_Retrieved = true;
             }
-
-            adapter.notifyDataSetChanged();
         }
         else {
             Toast.makeText(context, "Koneksi bermasalah", Toast.LENGTH_LONG).show();

@@ -37,9 +37,12 @@ public class FragmentToMeUnfinished extends Fragment {
         listViewUnfinishedToMe = (ListView) view.findViewById(R.id.ListViewToMeUnfinished);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
+        // Get List Workitem
         GlobalVariable.unfinishedAdapterToMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedToMe);
         listViewUnfinishedToMe.setAdapter(GlobalVariable.unfinishedAdapterToMe);
+        listViewUnfinishedToMe.setOnScrollListener(new UnfinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterToMe));
 
+        // Refresh List Workitem
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -53,6 +56,7 @@ public class FragmentToMeUnfinished extends Fragment {
             }
         });
 
+        // Get Workitem Listview
         listViewUnfinishedToMe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

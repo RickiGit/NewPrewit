@@ -34,7 +34,7 @@ public class FragmentAllUnfinished extends Fragment {
         listViewUnfinishedAll = (ListView) view.findViewById(R.id.ListViewAllUnfinished);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        GlobalVariable.unfinishedAdapterAll = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedAll);
+        GlobalVariable.unfinishedAdapterAll = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedAll);
         listViewUnfinishedAll.setAdapter(GlobalVariable.unfinishedAdapterAll);
         listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterAll));
 
@@ -53,8 +53,10 @@ public class FragmentAllUnfinished extends Fragment {
         listViewUnfinishedAll.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WorkItem workItem = GlobalVariable.listOfWorkItemUnfinishedAll.get(position);
-                GlobalFunction.showDialog(view, workItem);
+                if(GlobalVariable.listOfWorkItemUnfinishedAll.size() != 0){
+                    WorkItem workItem = GlobalVariable.listOfWorkItemUnfinishedAll.get(position);
+                    GlobalFunction.showDialog(view, workItem);
+                }
             }
         });
 

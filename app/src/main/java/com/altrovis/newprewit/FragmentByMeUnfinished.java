@@ -34,8 +34,7 @@ public class FragmentByMeUnfinished extends Fragment {
         listViewUnfinishedByMe = (ListView) view.findViewById(R.id.ListViewByMeUnfinished);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        GlobalVariable.listOfWorkItemUnfinishedByMe.clear();
-        GlobalVariable.unfinishedAdapterByMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfUnfinishedByMe);
+        GlobalVariable.unfinishedAdapterByMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedByMe);
         listViewUnfinishedByMe.setAdapter(GlobalVariable.unfinishedAdapterByMe);
         listViewUnfinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterByMe));
 
@@ -45,6 +44,7 @@ public class FragmentByMeUnfinished extends Fragment {
                 GlobalVariable.LastID_UnFinished_ByMe = -1;
                 GlobalVariable.All_UnFinishedByMe_Retrieved = false;
                 GlobalVariable.unfinishedAdapterByMe.clear();
+
                 listViewUnfinishedByMe.setAdapter(GlobalVariable.unfinishedAdapterByMe);
                 listViewUnfinishedByMe.setOnScrollListener(new UnfinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterByMe));
                 refreshLayout.setRefreshing(false);
@@ -54,8 +54,10 @@ public class FragmentByMeUnfinished extends Fragment {
         listViewUnfinishedByMe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WorkItem workItem = GlobalVariable.listOfWorkItemUnfinishedByMe.get(position);
-                GlobalFunction.showDialog(view, workItem);
+                if(GlobalVariable.listOfWorkItemUnfinishedByMe.size() != 0){
+                    WorkItem workItem = GlobalVariable.listOfWorkItemUnfinishedByMe.get(position);
+                    GlobalFunction.showDialog(view, workItem);
+                }
             }
         });
 
