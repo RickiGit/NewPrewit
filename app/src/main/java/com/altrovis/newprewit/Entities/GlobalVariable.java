@@ -11,6 +11,9 @@ import java.util.ArrayList;
  */
 public class GlobalVariable {
 
+    public static String SenderID = "864279139116";
+    public static int NotificationID = 101;
+
     // Login dan Logout
     public static String UrlLogin = "http://apps.altrovis.com/prewit/prewitservice.asmx/Login";
     public static String UrlLogout = "http://apps.altrovis.com/prewit/prewitservice.asmx/Logout";
@@ -36,6 +39,9 @@ public class GlobalVariable {
     public static String UrlGetAllFinishedWorkItems = "http://apps.altrovis.com/prewit/prewitservice.asmx/GetAllFinishedWorksItem";
     public static String UrlGetAllFinishedWorkItemsByMe = "http://apps.altrovis.com/prewit/prewitservice.asmx/GetAllFinishedWorksItemByMe";
     public static String UrlGetAllFinishedWorkItemsToMe = "http://apps.altrovis.com/prewit/prewitservice.asmx/GetAllFinishedWorksItemToMe";
+
+    public static String UrlRegisterDeviceGCM = "http://apps.altrovis.com/prewit/prewitservice.asmx/RegisterDeviceGCM";
+    public static String UrlUnregisterDeviceGCM = "http://apps.altrovis.com/prewit/prewitservice.asmx/UnregisterDeviceGCM";
 
     public static boolean All_Finished_Retrieved = false;
     public static boolean All_FinishedByMe_Retrieved = false;

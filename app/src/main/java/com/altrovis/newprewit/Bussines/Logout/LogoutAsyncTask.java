@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.altrovis.newprewit.ActivityLogin;
 import com.altrovis.newprewit.ActivityMain;
 import com.altrovis.newprewit.Bussines.GlobalFunction;
+import com.altrovis.newprewit.Bussines.Notification.UnregisterDeviceAsyncTask;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 
 import org.json.JSONException;
@@ -75,12 +76,12 @@ public class LogoutAsyncTask extends AsyncTask<Void, Void, JSONObject> {
             try {
                 boolean isSuccessful = result.getBoolean("IsSuccessful");
                 if(isSuccessful){
-
                     SharedPreferences logoutClear = context.getSharedPreferences("login", context.MODE_PRIVATE);
                     logoutClear.edit().remove("username").commit();
                     logoutClear.edit().remove("accesstoken").commit();
                     logoutClear.edit().remove("nickName").commit();
                     logoutClear.edit().remove("urlProfile").commit();
+                    logoutClear.edit().remove("registrationID").commit();
 
                     GlobalVariable.listOfUnfinishedByMe.clear();
                     GlobalVariable.listOfUnfinishedToMe.clear();

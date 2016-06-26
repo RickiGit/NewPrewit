@@ -18,6 +18,8 @@ import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedEndlessScrollToMe;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.WorkItem;
 
+import java.util.ArrayList;
+
 public class FragmentToMeUnfinished extends Fragment {
 
     ListView listViewUnfinishedToMe;
@@ -37,9 +39,13 @@ public class FragmentToMeUnfinished extends Fragment {
         listViewUnfinishedToMe = (ListView) view.findViewById(R.id.ListViewToMeUnfinished);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
 
-        // Get List Workitem
+        if (GlobalVariable.listOfWorkItemUnfinishedToMe == null) {
+            GlobalVariable.listOfWorkItemUnfinishedToMe = new ArrayList<WorkItem>();
+        }
+
         GlobalVariable.unfinishedAdapterToMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedToMe);
         listViewUnfinishedToMe.setAdapter(GlobalVariable.unfinishedAdapterToMe);
+
         listViewUnfinishedToMe.setOnScrollListener(new UnfinishedEndlessScrollToMe((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterToMe));
 
         // Refresh List Workitem
@@ -60,7 +66,7 @@ public class FragmentToMeUnfinished extends Fragment {
         listViewUnfinishedToMe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(GlobalVariable.listOfWorkItemUnfinishedToMe.size() != 0){
+                if (GlobalVariable.listOfWorkItemUnfinishedToMe.size() != 0) {
                     WorkItem workItem = GlobalVariable.listOfWorkItemUnfinishedToMe.get(position);
                     GlobalFunction.showDialog(view, workItem);
                 }
