@@ -21,6 +21,7 @@ public class NewWorkItemHelper {
     private static String TAG_CREATED = "Created";
     private static String TAG_PROJECT_ID = "ProjectID";
     private static String TAG_USERNAME = "Username";
+    private static String TAG_NICKNAME = "Nickname";
 
     public static ArrayList<ProjectMember> getListOfProjectMember(String url) throws Exception {
 
@@ -38,6 +39,7 @@ public class NewWorkItemHelper {
                     projectMember.setID(detailProjectMember.getInt(TAG_ID));
                     projectMember.setProjectID(detailProjectMember.getInt(TAG_PROJECT_ID));
                     projectMember.setUsername(detailProjectMember.getString(TAG_USERNAME));
+                    projectMember.setNickname(detailProjectMember.getString(TAG_NICKNAME));
 
                     listOfProjectMember.add(projectMember);
                 }

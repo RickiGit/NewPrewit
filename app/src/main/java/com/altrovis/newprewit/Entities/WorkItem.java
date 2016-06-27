@@ -16,12 +16,14 @@ public class WorkItem {
     private Date CompletedTime;
     private int GapDate;
     private User user;
+    private String AssignedByNickname;
+    private Date Deadline;
 
     public WorkItem(){
 
     }
 
-    public WorkItem(int ID, String description, Date created, String assignedBy, String assignedTo, String projectName, Date estimatedTime, Date completedTime, int gapDate) {
+    public WorkItem(int ID, String description, Date created, String assignedBy, String assignedTo, String projectName, Date estimatedTime, Date completedTime, int gapDate, String assignedByNickname, Date deadline) {
         this.ID = ID;
         this.Description = description;
         this.Created = created;
@@ -31,6 +33,24 @@ public class WorkItem {
         this.EstimatedTime = estimatedTime;
         this.CompletedTime = completedTime;
         this.GapDate = gapDate;
+        this.AssignedByNickname = assignedByNickname;
+        this.Deadline = deadline;
+    }
+
+    public Date getDeadline() {
+        return Deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        Deadline = deadline;
+    }
+
+    public String getAssignedByNickname() {
+        return AssignedByNickname;
+    }
+
+    public void setAssignedByNickname(String assignedByNickname) {
+        AssignedByNickname = assignedByNickname;
     }
 
     public int getID() {

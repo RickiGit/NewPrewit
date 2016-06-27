@@ -56,6 +56,7 @@ public class GlobalVariable {
     public static ArrayList<Project> listOfProjects = new ArrayList<Project>();
     public static ArrayList<ProjectMember> listOfProjectMembers = new ArrayList<ProjectMember>();
 
+    public static String UrlEditWorkItemEstimation = "http://apps.altrovis.com/prewit/prewitservice.asmx/EditWorkItemEstimation";
     public static String UrlEditWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/EditWorkItem";
     public static String UrlCompleteWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/CompleteWorkItem";
     public static String UrlDeleteWorkItem = "http://apps.altrovis.com/prewit/prewitservice.asmx/DeleteWorkItem";
@@ -79,6 +80,6 @@ public class GlobalVariable {
     public static FinishedAdapter finishedAdapterByMe;
     public static FinishedAdapter finishedAdapterAll;
 
-    public static Boolean statusList = true;
+    public static Boolean fragmentFrom = true;
 
 }

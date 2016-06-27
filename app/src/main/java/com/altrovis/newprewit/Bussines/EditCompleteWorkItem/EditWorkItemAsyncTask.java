@@ -25,27 +25,24 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
     ProgressDialog progressDialog;
     Context context;
 
-    String url = GlobalVariable.UrlEditWorkItem;
+    String url = GlobalVariable.UrlEditWorkItemEstimation;
     String param1 = "?workItemID=";
-    String param2 = "&description=";
-    String param3 = "&estimatedCompletion=";
-    String param4 = "&username=";
-    String param5 = "&accessToken=";
+    String param2 = "&estimatedCompletion=";
+    String param3 = "&username=";
+    String param4 = "&accessToken=";
 
     String estimatedDate = "";
     String username = "";
     String accessToken = "";
-    String description = "";
     int workItemID;
 
     String completeUrl = "";
 
-    public EditWorkItemAsyncTask(Context context, String description, String estimatedDate, int workItemID){
+    public EditWorkItemAsyncTask(Context context, String estimatedDate, int workItemID){
 
         this.context = context;
         this.estimatedDate =  estimatedDate;
         this.workItemID = workItemID;
-        this.description = description;
 
         SharedPreferences login = context.getSharedPreferences("login", context.MODE_PRIVATE);
         username = login.getString("username", "");
@@ -57,10 +54,9 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
 
         try {
             completeUrl = url + param1 + this.workItemID
-                              + param2 + URLEncoder.encode(this.description, "UTF-8")
-                              + param3 + this.estimatedDate
-                              + param4 + this.username
-                              + param5 + this.accessToken;
+                              + param2 + this.estimatedDate
+                              + param3 + this.username
+                              + param4 + this.accessToken;
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -22,6 +22,7 @@ import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.CompleteWorkItemAsyn
 import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.EditWorkItemAsyncTask;
 import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.EditWorkItemDescriptionAsyncTask;
 import com.altrovis.newprewit.Bussines.EditCompleteWorkItem.HapusWorkItemAsyncTask;
+import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.WorkItem;
 import com.altrovis.newprewit.R;
 
@@ -40,6 +41,10 @@ import java.util.Calendar;
  * Created by ricki on 4/5/2016.
  */
 public class GlobalFunction {
+
+    static String deskripsi;
+    static String tanggalEstimasi;
+    static String deadline;
 
     public static JSONArray GetJSONArray(String urlString) throws Exception {
 
@@ -113,9 +118,6 @@ public class GlobalFunction {
         return info != null && info.isConnectedOrConnecting();
     }
 
-    static String deskripsi;
-    static String tanggalEstimasi;
-
     public static void showDialog(final View view, final WorkItem workItem) {
 
         MaterialDialog dialog;
@@ -137,7 +139,7 @@ public class GlobalFunction {
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            new EditWorkItemAsyncTask(dialog.getContext(), deskripsi, tanggalEstimasi, workItem.getID()).execute();
+                            new EditWorkItemAsyncTask(dialog.getContext(), tanggalEstimasi, workItem.getID()).execute();
                         }
                     })
                     .show();
@@ -152,7 +154,7 @@ public class GlobalFunction {
                             if(tanggalEstimasi.equals("")){
                                 new EditWorkItemDescriptionAsyncTask(dialog.getContext(), deskripsi, workItem.getID()).execute();
                             }else{
-                                new EditWorkItemAsyncTask(dialog.getContext(), deskripsi, tanggalEstimasi, workItem.getID()).execute();
+                                new EditWorkItemAsyncTask(dialog.getContext(), tanggalEstimasi, workItem.getID()).execute();
                             }
                         }
                     })
@@ -184,7 +186,7 @@ public class GlobalFunction {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            new EditWorkItemAsyncTask(dialog.getContext(), deskripsi, tanggalEstimasi, workItem.getID()).execute();
+                            new EditWorkItemAsyncTask(dialog.getContext(), tanggalEstimasi, workItem.getID()).execute();
                         }
                     })
                     .show();
@@ -202,6 +204,10 @@ public class GlobalFunction {
         EditText editTextDescription = (EditText) dialog.getCustomView().findViewById(R.id.editText_description);
         editTextDescription.setText(workItem.getDescription());
         final EditText editTextEstimationDate = (EditText) dialog.getCustomView().findViewById(R.id.editText_EstimationDate);
+
+        if(GlobalVariable.fragmentFrom == true){
+            editTextDescription.setEnabled(false);
+        }
 
         if(!workItem.getAssignedBy().equalsIgnoreCase(username)){
             editTextDescription.setEnabled(false);
@@ -237,7 +243,6 @@ public class GlobalFunction {
                 editTextEstimationDate.setText(tanggal);
             }
 
-            editTextEstimationDate.setEnabled(true);
             editTextEstimationDate.setInputType(InputType.TYPE_NULL);
             editTextEstimationDate.setOnTouchListener(new View.OnTouchListener() {
                 @Override

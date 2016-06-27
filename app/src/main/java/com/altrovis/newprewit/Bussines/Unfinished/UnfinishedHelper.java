@@ -24,6 +24,8 @@ public class UnfinishedHelper {
     private static String TAG_ESTIMATION_DATE = "EstimationDate";
     private static String TAG_NICKNAME = "NickName";
     private static String TAG_URL_PROFILE = "ProfilPictureUrl";
+    private static String TAG_ASSIGNED_BY_NICKNAME = "AssignedByNickname";
+    private static String TAG_DEADLINE = "Deadline";
 
     public static ArrayList<WorkItem> getListOfWorkItem(String url) throws Exception {
 
@@ -43,6 +45,15 @@ public class UnfinishedHelper {
                     workItem.setAssignedBy(detailWorkItem.getString(TAG_ASSIGNED_BY));
                     workItem.setAssignedTo(detailWorkItem.getString(TAG_ASSIGNED_TO));
                     workItem.setProjectName(detailWorkItem.getString(TAG_PROJECT_NAME));
+                    workItem.setAssignedByNickname(detailWorkItem.getString(TAG_ASSIGNED_BY_NICKNAME));
+
+                    String deadline = detailWorkItem.getString(TAG_DEADLINE);
+                    if(deadline != null && !deadline.equals("null")){
+                        String dateString = detailWorkItem.getString(TAG_DEADLINE).replaceAll("\\D", "");
+                        long dateTimeStamp = Long.parseLong(dateString);
+                        Timestamp timestamp = new Timestamp(dateTimeStamp);
+                        workItem.setDeadline(new Date(timestamp.getTime()));
+                    }
 
                     String cek = detailWorkItem.getString(TAG_ESTIMATION_DATE);
                     if(cek != null && !cek.equals("null")){

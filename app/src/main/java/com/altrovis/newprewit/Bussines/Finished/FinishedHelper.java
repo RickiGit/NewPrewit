@@ -26,6 +26,8 @@ public class FinishedHelper {
     private static String TAG_GAP_DAYS = "GapDays";
     private static String TAG_NICKNAME = "NickName";
     private static String TAG_URL_PROFILE = "ProfilPictureUrl";
+    private static String TAG_ASSIGNED_BY_NICKNAME = "AssignedByNickname";
+    private static String TAG_DEADLINE = "Deadline";
 
     public static ArrayList<WorkItem> getListOfWorkItem(String url) throws Exception {
 
@@ -50,6 +52,16 @@ public class FinishedHelper {
                     long dateTimeStamp = Long.parseLong(dateString);
                     Timestamp timestamp = new Timestamp(dateTimeStamp);
                     workItem.setCreated(new Date(timestamp.getTime()));
+
+                    workItem.setAssignedByNickname(detailWorkItem.getString(TAG_ASSIGNED_BY_NICKNAME));
+
+                    String deadline = detailWorkItem.getString(TAG_DEADLINE);
+                    if(deadline != null && !deadline.equals("null")){
+                        String dateString1 = detailWorkItem.getString(TAG_DEADLINE).replaceAll("\\D", "");
+                        long dateTimeStamp1 = Long.parseLong(dateString);
+                        Timestamp timestamp1 = new Timestamp(dateTimeStamp);
+                        workItem.setDeadline(new Date(timestamp.getTime()));
+                    }
 
                     String cek1 = detailWorkItem.getString(TAG_ESTIMATION_DATE);
                     if(cek1 != null && !cek1.equals("null")){

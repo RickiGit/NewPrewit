@@ -28,7 +28,7 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
     Context context;
     int resource;
     ArrayList<WorkItem> listOfUnfinished = new ArrayList<WorkItem>();
-    DateFormat dateFormat;
+    DateFormat dateFormat, dateFormatDeadline;
 
     public UnfinishedAdapter(Context context, int resource, ArrayList<WorkItem> listOfUnfinished) {
         super(context, resource, listOfUnfinished);
@@ -38,6 +38,7 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
         this.listOfUnfinished = listOfUnfinished;
 
         dateFormat = new SimpleDateFormat("EEEE, d MMMM y HH:mm", new Locale("id", "ID"));
+        dateFormatDeadline = new SimpleDateFormat("d MMMM y", new Locale("id", "ID"));
     }
 
     @Override
@@ -55,18 +56,26 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
         TextView textViewAssigned = (TextView)view.findViewById(R.id.TextViewAssigned);
         TextView textViewProject = (TextView)view.findViewById(R.id.TextViewProject);
         ImageView imageViewKeterangan = (ImageView)view.findViewById(R.id.ImageViewKeterangan);
+        TextView textViewDeadline = (TextView)view.findViewById(R.id.TextViewDeadline);
 
         WorkItem workItem = listOfUnfinished.get(position);
 
         textViewUser.setText(workItem.getUser().getNickname());
         textViewCreated.setText(dateFormat.format(workItem.getCreated()));
         String description = workItem.getDescription();
-        if(description.length() > 30){
-            description = description.substring(0, 30) + "...";
+        if(description.length() > 40){
+            description = description.substring(0, 40) + "...";
         }
         textViewWork.setText(description);
-        textViewAssigned.setText(workItem.getAssignedBy());
+        textViewAssigned.setText(workItem.getAssignedByNickname());
         textViewProject.setText(workItem.getProjectName());
+
+        Date deadline = workItem.getDeadline();
+        if(deadline != null){
+            textViewDeadline.setText(dateFormatDeadline.format(workItem.getDeadline()));
+        }else{
+            textViewDeadline.setText("-");
+        }
 
         Date keterangan = workItem.getEstimatedTime();
         if(keterangan != null){
@@ -82,7 +91,6 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
                 .placeholder(R.drawable.caps)
                 .error(R.drawable.caps)
                 .centerCrop()
-                .transform(new CustomImageViewCircle())
                 .into(imageViewUser);
 
         return view;

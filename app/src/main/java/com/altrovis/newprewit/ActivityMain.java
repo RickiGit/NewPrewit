@@ -1,5 +1,6 @@
 package com.altrovis.newprewit;
 
+import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,12 +12,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -36,7 +40,11 @@ import com.altrovis.newprewit.Entities.ProjectMember;
 import com.altrovis.newprewit.Entities.WorkItem;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity
@@ -51,8 +59,8 @@ public class ActivityMain extends AppCompatActivity
     private Project selectedProject;
 
     private Spinner spEmployee, spProject;
-    private EditText etDeskription;
-    private String description;
+    private EditText etDeskription, editTextDeadline;
+    private String description, deadline;
 
     private SpinnerEmployeeAdapter employeeAdapter;
     private SpinnerProjectAdapter projectAdapter;
@@ -77,9 +85,9 @@ public class ActivityMain extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Set List Spinner New Workitem
 
-        listEmployee = new ArrayList<>();
+        // Set List Spinner New Workitem
+        listEmployee = new ArrayList<ProjectMember>();
         spEmployeeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listEmployee);
 
         listProject = new ArrayList<>();
@@ -188,6 +196,7 @@ public class ActivityMain extends AppCompatActivity
             if(actionBar != null){
                 actionBar.setTitle("To Me Unfinished");
             }
+            GlobalVariable.fragmentFrom = true;
         }else if (id == R.id.nav_by_me_unfinished) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, new FragmentByMeUnfinished());
@@ -197,6 +206,7 @@ public class ActivityMain extends AppCompatActivity
             if(actionBar != null){
                 actionBar.setTitle("By Me Unfinished");
             }
+            GlobalVariable.fragmentFrom = false;
         }else if(id == R.id.nav_all_unfinished){
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, new FragmentAllUnfinished());
@@ -206,6 +216,7 @@ public class ActivityMain extends AppCompatActivity
             if(actionBar != null){
                 actionBar.setTitle("All Unfinished");
             }
+            GlobalVariable.fragmentFrom = false;
         }else if(id == R.id.nav_all_finished){
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, new FragmentAllFinished());
@@ -215,6 +226,7 @@ public class ActivityMain extends AppCompatActivity
             if(actionBar != null){
                 actionBar.setTitle("All Finished");
             }
+            GlobalVariable.fragmentFrom = false;
         }else if(id == R.id.nav_to_me_finished) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, new FragmentToMeFinished());
@@ -224,6 +236,7 @@ public class ActivityMain extends AppCompatActivity
             if(actionBar != null){
                 actionBar.setTitle("To Me Finished");
             }
+            GlobalVariable.fragmentFrom = false;
         }else if(id == R.id.nav_by_me_finished){
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, new FragmentByMeFinished());
@@ -233,6 +246,7 @@ public class ActivityMain extends AppCompatActivity
             if(actionBar != null){
                 actionBar.setTitle("By Me Finished");
             }
+            GlobalVariable.fragmentFrom = false;
         }else if(id == R.id.nav_sign_out){
             new LogoutAsyncTask(this).execute();
         }
@@ -263,7 +277,9 @@ public class ActivityMain extends AppCompatActivity
 
             if(listProject.size() != 0){
                 selectedProject = listProject.get(position);
-                new GetAllProjectMembersAsyncTask(view.getContext(), selectedProject.getID(), spEmployeeAdapter, dialog).execute();
+                if(selectedProject != null || selectedProject.getID() > 0){
+                    new GetAllProjectMembersAsyncTask(view.getContext(), selectedProject.getID(), spEmployeeAdapter, dialog).execute();
+                }
             }
         }
 
@@ -292,11 +308,20 @@ public class ActivityMain extends AppCompatActivity
                                 int assignedByID = GetAssignedByID(username);
                                 int assignedToID = selectedEmployee.getID();
 
-                                new AddNewWorkItemAsyncTask(dialog.getContext(), description, projectID, assignedByID,
+                                new AddNewWorkItemAsyncTask(dialog.getContext(), description, projectID, deadline, assignedByID,
                                         assignedToID, dialog).execute();
 
                             }
                         }).show();
+
+                Collections.sort(listEmployee, new Comparator<ProjectMember>(){
+                    public int compare(ProjectMember emp1, ProjectMember emp2) {
+                        return emp1.getNickname().compareToIgnoreCase(emp2.getNickname());
+                    }
+                });
+
+                spProjectAdapter.clear();
+                spEmployeeAdapter.clear();
 
                 spProject = (Spinner) dialog.getCustomView().findViewById(R.id.spinner_project);
                 spProject.setAdapter(spProjectAdapter);
@@ -307,6 +332,50 @@ public class ActivityMain extends AppCompatActivity
                 spEmployee.setOnItemSelectedListener(employeeAdapter);
 
                 etDeskription = (EditText) dialog.getCustomView().findViewById(R.id.editText_description);
+                editTextDeadline = (EditText) dialog.getCustomView().findViewById(R.id.EditTextDeadline);
+
+                editTextDeadline.setInputType(InputType.TYPE_NULL);
+                editTextDeadline.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            Calendar currentDate = Calendar.getInstance();
+                            int year = currentDate.get(Calendar.YEAR);
+                            int month = currentDate.get(Calendar.MONTH);
+                            int day = currentDate.get(Calendar.DAY_OF_MONTH);
+
+                            DatePickerDialog datePicker = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+                                public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                                    Calendar c = Calendar.getInstance();
+                                    c.set(selectedyear, selectedmonth, selectedday);
+
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                                    String tanggal = sdf.format(c.getTime());
+                                    editTextDeadline.setText(tanggal);
+                                }
+                            }, year, month, day);
+                            datePicker.show();
+                        }
+                        return false;
+                    }
+                });
+
+                editTextDeadline.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        deadline = s.toString();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
 
                 etDeskription.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -320,7 +389,9 @@ public class ActivityMain extends AppCompatActivity
                 });
 
                 if(projectAdapter != null && employeeAdapter != null){
-                    new GetAllProjectsAsyncTask(view.getContext(), spProjectAdapter, dialog).execute();
+                    if(spProject != null && spEmployee != null){
+                        new GetAllProjectsAsyncTask(view.getContext(), spProjectAdapter, dialog).execute();
+                    }
                 }
 
             }

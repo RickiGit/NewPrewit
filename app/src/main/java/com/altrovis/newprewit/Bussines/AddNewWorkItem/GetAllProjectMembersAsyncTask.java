@@ -13,12 +13,14 @@ import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.ProjectMember;
 import com.altrovis.newprewit.R;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 /**
  * Created by Wisnu on 10/03/2016.
  */
 public class GetAllProjectMembersAsyncTask extends AsyncTask<Void, Void, Void> {
 
-    ProgressDialog progressDialog;
     Context context;
     ArrayAdapter<ProjectMember> projectMemberAdapter;
     View promptView;
@@ -33,8 +35,7 @@ public class GetAllProjectMembersAsyncTask extends AsyncTask<Void, Void, Void> {
     String username = "";
     String accessToken = "";
 
-    public GetAllProjectMembersAsyncTask(Context context, int projectID,
-                                         ArrayAdapter<ProjectMember> projectMemberAdapter, MaterialDialog dialog) {
+    public GetAllProjectMembersAsyncTask(Context context, int projectID, ArrayAdapter<ProjectMember> projectMemberAdapter, MaterialDialog dialog) {
         this.context = context;
         this.projectID = projectID;
         this.projectMemberAdapter = projectMemberAdapter;
@@ -47,18 +48,10 @@ public class GetAllProjectMembersAsyncTask extends AsyncTask<Void, Void, Void> {
         completeURL = url.concat(param1).concat(String.valueOf(this.projectID))
                         .concat(param2).concat(username)
                         .concat(param3).concat(accessToken);
-
-        progressDialog = new ProgressDialog(this.context);
-        progressDialog.setMessage("Silahkan Tunggu");
-        progressDialog.show();
     }
 
     protected void onPreExecute() {
         super.onPreExecute();
-
-        if (!progressDialog.isShowing()) {
-            progressDialog.show();
-        }
     }
 
     @Override
@@ -74,11 +67,14 @@ public class GetAllProjectMembersAsyncTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
 
-        if (progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-
         projectMemberAdapter.clear();
+
+        Collections.sort(GlobalVariable.listOfProjectMembers, new Comparator<ProjectMember>(){
+            public int compare(ProjectMember emp1, ProjectMember emp2) {
+                return emp1.getNickname().compareToIgnoreCase(emp2.getNickname());
+            }
+        });
+
         projectMemberAdapter.addAll(GlobalVariable.listOfProjectMembers);
         projectMemberAdapter.notifyDataSetChanged();
 

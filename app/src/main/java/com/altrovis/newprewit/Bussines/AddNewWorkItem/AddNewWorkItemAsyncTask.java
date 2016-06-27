@@ -37,19 +37,21 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
     String param1 = "?description=";
     String param2 = "&projectID=";
     String param3 = "&assignedByProjectMemberID=";
-    String param4 = "&assignedToProjectMemberID=";
-    String param5 = "&createdBy=";
-    String param6 = "&accessToken=";
+    String param4 = "&deadline=";
+    String param5 = "&assignedToProjectMemberID=";
+    String param6 = "&createdBy=";
+    String param7 = "&accessToken=";
 
     String description = "";
     String createdBy = "";
     String accessToken = "";
+    String deadline = "";
     int projectID, assignedByID, assignedToID;
 
     String completeUrl = "";
 
     public AddNewWorkItemAsyncTask(Context context, String description, int projectID,
-                                   int assignedByID, int assignedToID, Dialog dialog){
+                                   String deadline, int assignedByID, int assignedToID, Dialog dialog){
 
         this.context = context;
         this.description = description;
@@ -57,6 +59,7 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
         this.assignedByID = assignedByID;
         this.assignedToID = assignedToID;
         this.dialog = dialog;
+        this.deadline = deadline;
 
         SharedPreferences login = context.getSharedPreferences("login", context.MODE_PRIVATE);
         createdBy = login.getString("username", "");
@@ -70,9 +73,10 @@ public class AddNewWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
             completeUrl = url.concat(param1).concat(URLEncoder.encode(description, "utf-8"))
                              .concat(param2).concat(String.valueOf(projectID))
                              .concat(param3).concat(String.valueOf(assignedByID))
-                             .concat(param4).concat(String.valueOf(assignedToID))
-                             .concat(param5).concat(createdBy)
-                             .concat(param6).concat(accessToken);
+                             .concat(param4).concat(String.valueOf(deadline))
+                             .concat(param5).concat(String.valueOf(assignedToID))
+                             .concat(param6).concat(createdBy)
+                             .concat(param7).concat(accessToken);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

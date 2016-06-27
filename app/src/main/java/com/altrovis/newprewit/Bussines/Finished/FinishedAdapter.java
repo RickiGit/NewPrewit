@@ -28,7 +28,7 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
     Context context;
     int resource;
     ArrayList<WorkItem> listOfFinished;
-    DateFormat dateFormat;
+    DateFormat dateFormat, dateFormatDeadline;;
 
     public FinishedAdapter(Context context, int resource, ArrayList<WorkItem> listOfFinished) {
         super(context, resource, listOfFinished);
@@ -38,6 +38,7 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         this.listOfFinished = listOfFinished;
 
         dateFormat = new SimpleDateFormat("EEEE, d MMMM y HH:mm", new Locale("id", "ID"));
+        dateFormatDeadline = new SimpleDateFormat("d MMMM y", new Locale("id", "ID"));
     }
 
     @Override
@@ -56,28 +57,35 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         TextView textViewAssigned = (TextView)view.findViewById(R.id.TextViewAssigned);
         TextView textViewProject = (TextView)view.findViewById(R.id.TextViewProject);
         ImageView imageViewKeterangan = (ImageView)view.findViewById(R.id.ImageViewKeterangan);
-
+        TextView textViewDeadline = (TextView)view.findViewById(R.id.TextViewDeadline);
 
         WorkItem workItem = listOfFinished.get(position);
 
         textViewUser.setText(workItem.getUser().getNickname());
 
         String description = workItem.getDescription();
-        if(description.length() > 30){
-            description = description.substring(0, 30) + "...";
+        if(description.length() > 40){
+            description = description.substring(0, 40) + "...";
         }
         textViewWork.setText(description);
 
-        textViewAssigned.setText(workItem.getAssignedBy());
+        textViewAssigned.setText(workItem.getAssignedByNickname());
         textViewProject.setText(workItem.getProjectName());
-        textViewEstimated.setText("Estimated : " + dateFormat.format(workItem.getEstimatedTime()));
-        textViewCompleted.setText("Completed : " + dateFormat.format(workItem.getCompletedTime()));
+        textViewEstimated.setText("Estimated : " + dateFormatDeadline.format(workItem.getEstimatedTime()));
+        textViewCompleted.setText("Completed : " + dateFormatDeadline.format(workItem.getCompletedTime()));
 
         Date keterangan = workItem.getEstimatedTime();
         if(keterangan != null){
             imageViewKeterangan.setImageResource(R.drawable.mark);
         }else{
             imageViewKeterangan.setImageResource(0);
+        }
+
+        Date deadline = workItem.getDeadline();
+        if(deadline != null){
+            textViewDeadline.setText(dateFormatDeadline.format(workItem.getDeadline()));
+        }else{
+            textViewDeadline.setText("-");
         }
 
         String urlProfile = workItem.getUser().getUrlProfilPicture();

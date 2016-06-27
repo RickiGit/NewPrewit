@@ -7,14 +7,16 @@ public class ProjectMember {
     private int ID;
     private int ProjectID;
     private String Username;
+    private String Nickname;
 
     public ProjectMember() {
     }
 
-    public ProjectMember(int ID, int projectID, String username) {
+    public ProjectMember(int ID, int projectID, String username, String nickname) {
         this.ID = ID;
         ProjectID = projectID;
         Username = username;
+        Nickname = nickname;
     }
 
     public int getID() {
@@ -41,8 +43,16 @@ public class ProjectMember {
         Username = username;
     }
 
+    public String getNickname() {
+        return Nickname;
+    }
+
+    public void setNickname(String nickname) {
+        Nickname = nickname;
+    }
+
     @Override
     public String toString(){
-        return Username;
+        return Nickname;
     }
 }
