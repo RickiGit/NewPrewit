@@ -15,6 +15,8 @@ import com.altrovis.newprewit.Bussines.Unfinished.UnfinishedEndlessScrollByMe;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.WorkItem;
 
+import java.util.ArrayList;
+
 public class FragmentByMeUnfinished extends Fragment {
 
     ListView listViewUnfinishedByMe;
@@ -33,6 +35,10 @@ public class FragmentByMeUnfinished extends Fragment {
 
         listViewUnfinishedByMe = (ListView) view.findViewById(R.id.ListViewByMeUnfinished);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+
+        if (GlobalVariable.listOfWorkItemUnfinishedByMe == null) {
+            GlobalVariable.listOfWorkItemUnfinishedByMe = new ArrayList<WorkItem>();
+        }
 
         GlobalVariable.unfinishedAdapterByMe = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedByMe);
         listViewUnfinishedByMe.setAdapter(GlobalVariable.unfinishedAdapterByMe);

@@ -11,6 +11,9 @@ import android.widget.ListView;
 import com.altrovis.newprewit.Bussines.Finished.FinishedAdapter;
 import com.altrovis.newprewit.Bussines.Finished.FinishedEndlessScrollByMe;
 import com.altrovis.newprewit.Entities.GlobalVariable;
+import com.altrovis.newprewit.Entities.WorkItem;
+
+import java.util.ArrayList;
 
 public class FragmentByMeFinished extends Fragment {
 
@@ -29,6 +32,10 @@ public class FragmentByMeFinished extends Fragment {
 
         listViewFinishedByMe = (ListView) view.findViewById(R.id.ListViewByMeFinished);
         final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+
+        if (GlobalVariable.listOfWorkItemFinishedByMe == null) {
+            GlobalVariable.listOfWorkItemFinishedByMe = new ArrayList<WorkItem>();
+        }
 
         GlobalVariable.finishedAdapterByMe = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfWorkItemFinishedByMe);
         listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);

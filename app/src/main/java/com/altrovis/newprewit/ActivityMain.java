@@ -34,6 +34,8 @@ import com.altrovis.newprewit.Bussines.AddNewWorkItem.GetAllProjectMembersAsyncT
 import com.altrovis.newprewit.Bussines.AddNewWorkItem.GetAllProjectsAsyncTask;
 import com.altrovis.newprewit.Bussines.CustomImageViewCircle;
 import com.altrovis.newprewit.Bussines.Logout.LogoutAsyncTask;
+import com.altrovis.newprewit.Bussines.Notification.RegisterDeviceGCMAsyncTask;
+import com.altrovis.newprewit.Bussines.Notification.UnregisterDeviceAsyncTask;
 import com.altrovis.newprewit.Entities.GlobalVariable;
 import com.altrovis.newprewit.Entities.Project;
 import com.altrovis.newprewit.Entities.ProjectMember;
@@ -103,12 +105,12 @@ public class ActivityMain extends AppCompatActivity
 
         GlobalVariable.activityMain = this;
 
-        GlobalVariable.listOfWorkItemFinishedAll = new ArrayList<WorkItem>();
-        GlobalVariable.listOfWorkItemFinishedByMe = new ArrayList<WorkItem>();
-        GlobalVariable.listOfWorkItemFinishedToMe = new ArrayList<WorkItem>();
-        GlobalVariable.listOfWorkItemUnfinishedAll = new ArrayList<WorkItem>();
-        GlobalVariable.listOfWorkItemUnfinishedByMe = new ArrayList<WorkItem>();
-        GlobalVariable.listOfWorkItemUnfinishedToMe = new ArrayList<WorkItem>();
+        //GlobalVariable.listOfWorkItemFinishedAll = new ArrayList<WorkItem>();
+        //GlobalVariable.listOfWorkItemFinishedByMe = new ArrayList<WorkItem>();
+        //GlobalVariable.listOfWorkItemFinishedToMe = new ArrayList<WorkItem>();
+        //GlobalVariable.listOfWorkItemUnfinishedAll = new ArrayList<WorkItem>();
+        //GlobalVariable.listOfWorkItemUnfinishedByMe = new ArrayList<WorkItem>();
+        //GlobalVariable.listOfWorkItemUnfinishedToMe = new ArrayList<WorkItem>();
 
         this.setFloactingActionButton();
 
@@ -147,6 +149,13 @@ public class ActivityMain extends AppCompatActivity
                 .into(imageViewDrawer);
 
         textViewNickName.setText(nickname);
+
+        String registrationID = preferences.getString("registrationID", "");
+        if(registrationID.length() == 0)
+        {
+            RegisterDeviceGCMAsyncTask registerDeviceGCMTask = new RegisterDeviceGCMAsyncTask(this);
+            registerDeviceGCMTask.execute();
+        }
     }
 
     @Override
@@ -248,6 +257,7 @@ public class ActivityMain extends AppCompatActivity
             }
             GlobalVariable.fragmentFrom = false;
         }else if(id == R.id.nav_sign_out){
+            new UnregisterDeviceAsyncTask(this).execute();
             new LogoutAsyncTask(this).execute();
         }
 
