@@ -1,6 +1,7 @@
 package com.altrovis.newprewit.Bussines.Unfinished;
 
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.AbsListView;
 
 import com.altrovis.newprewit.ActivityMain;
@@ -16,10 +17,12 @@ public class UnfinishedEndlessScrollToMe implements AbsListView.OnScrollListener
     private ActivityMain context;
     private UnfinishedAsyncTaskToMe asyncTask;
     private UnfinishedAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    public UnfinishedEndlessScrollToMe(ActivityMain context, UnfinishedAdapter adapter) {
+    public UnfinishedEndlessScrollToMe(ActivityMain context, UnfinishedAdapter adapter, SwipeRefreshLayout swipeRefreshLayout) {
         this.context = context;
         this.adapter = adapter;
+        this.swipeRefreshLayout = swipeRefreshLayout;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class UnfinishedEndlessScrollToMe implements AbsListView.OnScrollListener
 
         if (!GlobalVariable.All_UnFinishedToMe_Retrieved && totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold) {
             if (asyncTask == null || asyncTask.getStatus() == AsyncTask.Status.FINISHED) {
-                asyncTask = new UnfinishedAsyncTaskToMe(context, adapter);
+                asyncTask = new UnfinishedAsyncTaskToMe(context, adapter, swipeRefreshLayout);
                 asyncTask.execute();
             }
         }

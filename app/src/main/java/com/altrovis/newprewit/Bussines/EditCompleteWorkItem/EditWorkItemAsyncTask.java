@@ -117,6 +117,8 @@ public class EditWorkItemAsyncTask extends AsyncTask<Void, Void, JSONObject> {
             } catch (JSONException e) {
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             }
+        }else{
+            Toast.makeText(context, "Tidak berhasil edit workitem, coba lagi", Toast.LENGTH_LONG).show();
         }
 
     }

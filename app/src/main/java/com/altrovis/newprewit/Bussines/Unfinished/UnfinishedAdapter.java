@@ -37,7 +37,7 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
         this.resource = resource;
         this.listOfUnfinished = listOfUnfinished;
 
-        dateFormat = new SimpleDateFormat("EEEE, d MMMM y HH:mm", new Locale("id", "ID"));
+        dateFormat = new SimpleDateFormat("d MMMM y", new Locale("id", "ID"));
         dateFormatDeadline = new SimpleDateFormat("d MMMM y", new Locale("id", "ID"));
     }
 
@@ -91,6 +91,7 @@ public class UnfinishedAdapter extends ArrayAdapter<WorkItem> {
                 .placeholder(R.drawable.caps)
                 .error(R.drawable.caps)
                 .centerCrop()
+                .transform(new CustomImageViewCircle())
                 .into(imageViewUser);
 
         return view;

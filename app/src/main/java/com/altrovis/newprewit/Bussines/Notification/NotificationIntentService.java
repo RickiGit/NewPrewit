@@ -32,7 +32,7 @@ public class NotificationIntentService extends IntentService {
             String type = extras.getString("type");
             String workItemID = extras.getString("workItemID");
 
-            if (workItemID.length() > 0) {
+            if (workItemID != null) {
                 message = Html.fromHtml(message).toString();
 
                 NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);

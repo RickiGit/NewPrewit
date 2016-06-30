@@ -37,7 +37,7 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
         this.resource = resource;
         this.listOfFinished = listOfFinished;
 
-        dateFormat = new SimpleDateFormat("EEEE, d MMMM y HH:mm", new Locale("id", "ID"));
+        dateFormat = new SimpleDateFormat("d MMMM y", new Locale("id", "ID"));
         dateFormatDeadline = new SimpleDateFormat("d MMMM y", new Locale("id", "ID"));
     }
 
@@ -71,8 +71,8 @@ public class FinishedAdapter extends ArrayAdapter<WorkItem> {
 
         textViewAssigned.setText(workItem.getAssignedByNickname());
         textViewProject.setText(workItem.getProjectName());
-        textViewEstimated.setText("Estimated : " + dateFormatDeadline.format(workItem.getEstimatedTime()));
-        textViewCompleted.setText("Completed : " + dateFormatDeadline.format(workItem.getCompletedTime()));
+        textViewEstimated.setText(dateFormatDeadline.format(workItem.getEstimatedTime()));
+        textViewCompleted.setText(dateFormatDeadline.format(workItem.getCompletedTime()));
 
         Date keterangan = workItem.getEstimatedTime();
         if(keterangan != null){

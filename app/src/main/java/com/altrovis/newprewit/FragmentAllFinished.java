@@ -39,7 +39,7 @@ public class FragmentAllFinished extends Fragment {
 
         GlobalVariable.finishedAdapterAll = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfWorkItemFinishedAll);
         listViewFinishedAll.setAdapter(GlobalVariable.finishedAdapterAll);
-        listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.finishedAdapterAll));
+        listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.finishedAdapterAll, refreshLayout));
 
         if (GlobalVariable.listOfFinished.size() == 0) {
             refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -49,7 +49,7 @@ public class FragmentAllFinished extends Fragment {
                     GlobalVariable.All_Finished_Retrieved = false;
                     GlobalVariable.finishedAdapterAll.clear();
                     listViewFinishedAll.setAdapter(GlobalVariable.finishedAdapterAll);
-                    listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.finishedAdapterAll));
+                    listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.finishedAdapterAll, refreshLayout));
                     refreshLayout.setRefreshing(false);
                 }
             });
@@ -62,7 +62,7 @@ public class FragmentAllFinished extends Fragment {
                 GlobalVariable.All_Finished_Retrieved = false;
                 GlobalVariable.finishedAdapterAll.clear();
                 listViewFinishedAll.setAdapter(GlobalVariable.finishedAdapterAll);
-                listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.finishedAdapterAll));
+                listViewFinishedAll.setOnScrollListener(new FinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.finishedAdapterAll, refreshLayout));
                 refreshLayout.setRefreshing(false);
             }
         });

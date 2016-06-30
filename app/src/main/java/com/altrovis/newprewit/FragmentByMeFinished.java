@@ -39,7 +39,7 @@ public class FragmentByMeFinished extends Fragment {
 
         GlobalVariable.finishedAdapterByMe = new FinishedAdapter(getActivity(), R.layout.item_listview_finished, GlobalVariable.listOfWorkItemFinishedByMe);
         listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);
-        listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe));
+        listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe, refreshLayout));
 
         if(GlobalVariable.listOfFinishedByMe.size() == 0){
             refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -49,7 +49,7 @@ public class FragmentByMeFinished extends Fragment {
                     GlobalVariable.All_FinishedByMe_Retrieved = false;
                     GlobalVariable.finishedAdapterByMe.clear();
                     listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);
-                    listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe));
+                    listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe, refreshLayout));
                     refreshLayout.setRefreshing(false);
                 }
             });
@@ -62,7 +62,7 @@ public class FragmentByMeFinished extends Fragment {
                 GlobalVariable.All_FinishedByMe_Retrieved = false;
                 GlobalVariable.finishedAdapterByMe.clear();
                 listViewFinishedByMe.setAdapter(GlobalVariable.finishedAdapterByMe);
-                listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe));
+                listViewFinishedByMe.setOnScrollListener(new FinishedEndlessScrollByMe((ActivityMain) getActivity(), GlobalVariable.finishedAdapterByMe, refreshLayout));
                 refreshLayout.setRefreshing(false);
             }
         });

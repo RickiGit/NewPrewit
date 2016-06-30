@@ -105,13 +105,6 @@ public class ActivityMain extends AppCompatActivity
 
         GlobalVariable.activityMain = this;
 
-        //GlobalVariable.listOfWorkItemFinishedAll = new ArrayList<WorkItem>();
-        //GlobalVariable.listOfWorkItemFinishedByMe = new ArrayList<WorkItem>();
-        //GlobalVariable.listOfWorkItemFinishedToMe = new ArrayList<WorkItem>();
-        //GlobalVariable.listOfWorkItemUnfinishedAll = new ArrayList<WorkItem>();
-        //GlobalVariable.listOfWorkItemUnfinishedByMe = new ArrayList<WorkItem>();
-        //GlobalVariable.listOfWorkItemUnfinishedToMe = new ArrayList<WorkItem>();
-
         this.setFloactingActionButton();
 
         // Default Fragment (Unfinished To Me)
@@ -318,8 +311,12 @@ public class ActivityMain extends AppCompatActivity
                                 int assignedByID = GetAssignedByID(username);
                                 int assignedToID = selectedEmployee.getID();
 
-                                new AddNewWorkItemAsyncTask(dialog.getContext(), description, projectID, deadline, assignedByID,
-                                        assignedToID, dialog).execute();
+                                if(editTextDeadline.getText().toString().equals("")){
+                                    Toast.makeText(ActivityMain.this, "Harap masukan deadline workitem", Toast.LENGTH_LONG).show();
+                                }else{
+                                    new AddNewWorkItemAsyncTask(dialog.getContext(), description, projectID, deadline, assignedByID,
+                                            assignedToID, dialog).execute();
+                                }
 
                             }
                         }).show();

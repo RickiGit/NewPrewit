@@ -42,7 +42,7 @@ public class FragmentAllUnfinished extends Fragment {
 
         GlobalVariable.unfinishedAdapterAll = new UnfinishedAdapter(getActivity(), R.layout.item_listview_unfinished, GlobalVariable.listOfWorkItemUnfinishedAll);
         listViewUnfinishedAll.setAdapter(GlobalVariable.unfinishedAdapterAll);
-        listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterAll));
+        listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterAll, refreshLayout));
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -51,7 +51,7 @@ public class FragmentAllUnfinished extends Fragment {
                 GlobalVariable.All_UnFinished_Retrieved = false;
                 GlobalVariable.unfinishedAdapterAll.clear();
                 listViewUnfinishedAll.setAdapter(GlobalVariable.unfinishedAdapterAll);
-                listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterAll));
+                listViewUnfinishedAll.setOnScrollListener(new UnfinishedEndlessScrollAll((ActivityMain) getActivity(), GlobalVariable.unfinishedAdapterAll, refreshLayout));
                 refreshLayout.setRefreshing(false);
             }
         });

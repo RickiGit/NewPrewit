@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 
 import com.altrovis.newprewit.Bussines.GlobalFunction;
@@ -16,10 +17,11 @@ import java.util.ArrayList;
  * Created by ricki on 4/6/2016.
  */
 public class FinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
-    ProgressDialog progressDialog;
+
     Context context;
     FinishedAdapter adapter;
     ArrayList<WorkItem> listOfWorkItem = new ArrayList<WorkItem>();
+    SwipeRefreshLayout swipeRefreshLayout;
 
     String url = GlobalVariable.UrlGetAllFinishedWorkItemsToMe;
     String param1 = "?username=";
@@ -30,9 +32,10 @@ public class FinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
     String username = "";
     String accessToken = "";
 
-    public FinishedAsyncTaskToMe(Context context, FinishedAdapter adapter){
+    public FinishedAsyncTaskToMe(Context context, FinishedAdapter adapter, SwipeRefreshLayout swipeRefreshLayout){
         this.context = context;
         this.adapter = adapter;
+        this.swipeRefreshLayout = swipeRefreshLayout;
 
         SharedPreferences login = context.getSharedPreferences("login", context.MODE_PRIVATE);
         username = login.getString("username", "");
@@ -40,17 +43,18 @@ public class FinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
 
         completeURL = url.concat(param1).concat(username).concat(param2).concat(accessToken)
                 .concat(param3).concat(String.valueOf(GlobalVariable.LastID_Finished_ToMe));
-
-        progressDialog = new ProgressDialog(this.context);
-        progressDialog.setMessage("Silahkan Tunggu");
-        progressDialog.show();
     }
 
     protected void onPreExecute() {
         super.onPreExecute();
 
-        if(!progressDialog.isShowing()){
-            progressDialog.show();
+        if(swipeRefreshLayout != null) {
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            });
         }
     }
 
@@ -66,10 +70,6 @@ public class FinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
 
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-
-        if (progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
 
         if(GlobalFunction.isOnline(context)){
             adapter.addAll(listOfWorkItem);
@@ -89,5 +89,13 @@ public class FinishedAsyncTaskToMe extends AsyncTask<Void, Void, Void> {
             Toast.makeText(context, "Koneksi bermasalah", Toast.LENGTH_LONG).show();
         }
 
+        if(swipeRefreshLayout != null) {
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 }
